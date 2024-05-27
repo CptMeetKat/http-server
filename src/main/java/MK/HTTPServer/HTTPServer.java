@@ -77,24 +77,22 @@ public class HTTPServer
             String socketAddress = ((InetSocketAddress)client.getRemoteAddress()).toString();
 
             ByteBuffer buffer = ByteBuffer.allocate(socket_buffer); 
-            client.read(buffer); 
+            int received_length = client.read(buffer); 
 
             String data = new String(buffer.array());
-            data = data.trim();
+            data = data.substring(0, received_length);
 
-            System.out.printf("Received length %d bytes from %s\n", data.length(), socketAddress);
-            if(data.length() > 0)
-            {
-                if(request_builder.containsKey(socketAddress))
-                    request_builder.get(socketAddress).append(data);
-                else
-                    request_builder.put(socketAddress, new StringBuilder(data));
-                client.register(selector, SelectionKey.OP_READ); 
-                System.out.printf("Received message: '%s'\n", data);
-            }
+            System.out.printf("Received length %d bytes from %s\n", received_length , socketAddress);
+            System.out.printf("Received message: '%s'\n", data);
+
+            if(request_builder.containsKey(socketAddress))
+                request_builder.get(socketAddress).append(data);
             else
+                request_builder.put(socketAddress, new StringBuilder(data));
+
+            if( request_builder.get(socketAddress).toString().endsWith("\r\n\r\n") ) //may change later when body is parsed
             {
-                System.out.printf("Final Message: %s\n", request_builder.get(socketAddress));
+                System.out.printf("Final Message: '%s'\n", request_builder.get(socketAddress));
                 HTTPRequest request = new HTTPRequest(request_builder.get(socketAddress).toString());
                 RequestProcessor.processRequest(client, request);
                 client.close();
