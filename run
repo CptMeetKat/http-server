@@ -1,0 +1,6 @@
+#!/bin/bash
+java -cp target/HTTPServer-1.0-SNAPSHOT.jar MK.HTTPServer.App
+
+#java -cp "target/classes:target/dependency/*" MK.HTTPServer.App
+
+
