@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 public class HTTPRequest
 {
-    //public String request;
     HashMap<String,String> request_map = new HashMap<>();
 
     public HTTPRequest(String request)
