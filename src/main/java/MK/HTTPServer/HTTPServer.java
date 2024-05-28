@@ -17,12 +17,13 @@ public class HTTPServer
 {
     private Selector selector = null; 
     private int port;
-    private int socket_buffer = 3;
+    private int buffer_length = 3;
     private HashMap<String, StringBuilder> request_builder = new HashMap<>();
 
-    public HTTPServer(int port)
+    public HTTPServer(int port, int buffer_length)
     {
         this.port = port;
+        this.buffer_length = buffer_length;
     }
 
     public void start()
@@ -76,7 +77,7 @@ public class HTTPServer
             SocketChannel client = (SocketChannel)key.channel(); 
             String socketAddress = ((InetSocketAddress)client.getRemoteAddress()).toString();
 
-            ByteBuffer buffer = ByteBuffer.allocate(socket_buffer); 
+            ByteBuffer buffer = ByteBuffer.allocate(buffer_length); 
             int received_length = client.read(buffer); 
 
             String data = new String(buffer.array());
