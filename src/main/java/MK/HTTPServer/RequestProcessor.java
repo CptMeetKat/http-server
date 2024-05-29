@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 
 public class RequestProcessor
 {
+    public static String static_root = "";
     public static void processRequest(SocketChannel client, HTTPRequest request)
         throws IOException
     {
@@ -48,7 +49,7 @@ public class RequestProcessor
     private static boolean fileExists(HTTPRequest request)
     {
 
-        Path filePath = Paths.get(  request.getField("URI")   );
+        Path filePath = Paths.get(  static_root + request.getField("URI")   );
         System.out.printf("Does Exist: %s\n", filePath);
         return Files.exists(filePath);
     }
@@ -57,7 +58,7 @@ public class RequestProcessor
     private static void writeHTMLFile(SocketChannel client, HTTPRequest request)
         throws IOException
     {
-        String path = request.getField("URI");
+        String path = static_root + request.getField("URI");
 
         System.out.printf("GET file: %s\n", path);
 
