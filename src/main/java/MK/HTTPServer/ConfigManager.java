@@ -54,7 +54,7 @@ public class ConfigManager
         StringBuilder builder = new StringBuilder();
         for(String key : config.keySet())
         {
-            builder.append(key + "=" + config.get(key));
+            builder.append(key + "=" + config.get(key) + "\n");
         }
 
         return builder.toString();
