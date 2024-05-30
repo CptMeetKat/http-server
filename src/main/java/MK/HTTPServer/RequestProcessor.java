@@ -59,22 +59,28 @@ public class RequestProcessor
         throws IOException
     {
         String path = static_root + request.getField("URI");
-
         System.out.printf("GET file: %s\n", path);
+        String body = new String(getFileAsBytes(path));
+        
+        HTTPResponse response = new HTTPResponse();
+        response.setVersion("1.1");
+        response.setStatusCode("200");
+        response.setReasonPhrase("OK");
+        response.setContentType("text/html");
+        response.setBody(body);
+        client.write(ByteBuffer.wrap(response.serialize()));
+        
+    }
 
-        File htmlFile = new File(path); // Replace "path/to/your/file.html" with the actual path to your HTML file
-        byte[] htmlBytes = new byte[(int) htmlFile.length()];
-        FileInputStream fis = new FileInputStream(htmlFile);
-        fis.read(htmlBytes);
+
+    private static byte[] getFileAsBytes(String path)
+    throws IOException
+    {
+        File file = new File(path); // Replace "path/to/your/file.html" with the actual path to your HTML file
+        byte[] fileBytes = new byte[(int) file.length()];
+        FileInputStream fis = new FileInputStream(file);
+        fis.read(fileBytes);
         fis.close();
-        String body = new String(htmlBytes);
-
-
-
-
-        String httpResponse = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: " + body.length() + "\r\n\r\n" + body;
-        byte[] byteArray = httpResponse.getBytes(StandardCharsets.UTF_8);
-        ByteBuffer byteBuffer = ByteBuffer.wrap(byteArray);
-        client.write(byteBuffer);
+        return fileBytes;
     }
 }
