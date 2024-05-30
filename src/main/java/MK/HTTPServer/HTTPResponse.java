@@ -16,6 +16,14 @@ public class HTTPResponse
         reason_phrase = "";
     }
 
+    public static HTTPResponse createOKResponse()
+    {
+        HTTPResponse response = new HTTPResponse();
+        response.setVersion("1.1");
+        response.setReasonPhrase("OK");
+        response.setStatusCode("200");
+        return response;
+    }
 
     public void setVersion(String version)
     {

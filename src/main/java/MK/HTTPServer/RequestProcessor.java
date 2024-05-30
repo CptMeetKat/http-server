@@ -62,10 +62,7 @@ public class RequestProcessor
         System.out.printf("GET file: %s\n", path);
         String body = new String(getFileAsBytes(path));
         
-        HTTPResponse response = new HTTPResponse();
-        response.setVersion("1.1");
-        response.setStatusCode("200");
-        response.setReasonPhrase("OK");
+        HTTPResponse response = HTTPResponse.createOKResponse(); //ADD Class or Factory class or somthing tha tis like Response.CreateOKResponse()
         response.setContentType("text/html");
         response.setBody(body);
         client.write(ByteBuffer.wrap(response.serialize()));
