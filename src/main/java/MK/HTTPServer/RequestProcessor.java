@@ -16,7 +16,6 @@ public class RequestProcessor
     public static void processRequest(SocketChannel client, HTTPRequest request)
         throws IOException
     {
-        //writeOK(client);
         Path basePath = new File(static_root).toPath();
         Path userPath = new File(request.getField("URI")).toPath();
         Path resolvedPath = PathUtils.resolvePath(basePath, userPath);
@@ -35,22 +34,11 @@ public class RequestProcessor
         System.out.println("Current directory: " + currentDirectory);
     }
 
-    private static void writeOK(SocketChannel client) //Use avaiable functions here
-        throws IOException
-    {
-        String httpResponse = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 3\r\n\r\nabc";
-        byte[] byteArray = httpResponse.getBytes(StandardCharsets.UTF_8);
-        ByteBuffer byteBuffer = ByteBuffer.wrap(byteArray);
-        client.write(byteBuffer);
-    }
-
     private static void writeNotFound(SocketChannel client)
         throws IOException
     {
-        String httpResponse = "HTTP/1.1 404 Not Found\r\nContent-Type: text/plain\r\nContent-Length: 13\r\n\r\n404 Not Found";
-        byte[] byteArray = httpResponse.getBytes(StandardCharsets.UTF_8);
-        ByteBuffer byteBuffer = ByteBuffer.wrap(byteArray);
-        client.write(byteBuffer);
+        HTTPResponse response = HTTPResponse.createNotFoundResponse();
+        client.write(ByteBuffer.wrap(response.serialize()));
     }       
 
     private static void writeHTMLFile(SocketChannel client, HTTPRequest request) //Remove request usage here

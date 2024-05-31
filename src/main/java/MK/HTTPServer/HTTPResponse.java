@@ -25,6 +25,16 @@ public class HTTPResponse
         return response;
     }
 
+    public static HTTPResponse createNotFoundResponse()
+    {
+        HTTPResponse response = new HTTPResponse();
+        response.setVersion("1.1");
+        response.setStatusCode("404");
+        response.setReasonPhrase("Not Found");
+        response.setBody("404 Not Found"); //Future: Replace with default 404 not found page
+        return response;
+    }
+
     public void setVersion(String version)
     {
         if(version.equals("1.1")) //Only currently supporting 1.1
