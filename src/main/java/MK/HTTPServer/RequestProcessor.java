@@ -17,14 +17,17 @@ public class RequestProcessor
         throws IOException
     {
         Path basePath = new File(static_root).toPath();
-        Path userPath = new File(request.getField("URI")).toPath();
-        Path resolvedPath = PathUtils.resolvePath(basePath, userPath);
+        Path userPath = new File("./" + request.getField("URI")).toPath();
         
-        System.out.printf("basepath %s\n", basePath);
-        System.out.printf("userpath %s\n", userPath);
+        System.out.printf("______basepath %s\n", basePath);
+        System.out.printf("______userpath %s\n", userPath);
+        System.out.printf("______URIPath %s\n", request.getField("URI"));
 
+
+
+        Path resolvedPath = PathUtils.resolvePath(basePath, userPath);
         if(Files.exists(resolvedPath) ) 
-            writeHTMLFile(client, request);
+            writeHTMLFile(client, resolvedPath);
         else
             writeNotFound(client);
 
@@ -41,18 +44,16 @@ public class RequestProcessor
         client.write(ByteBuffer.wrap(response.serialize()));
     }       
 
-    private static void writeHTMLFile(SocketChannel client, HTTPRequest request) //Remove request usage here
+    private static void writeHTMLFile(SocketChannel client, Path path) //Remove request usage here
         throws IOException
     {
-        String path = static_root + request.getField("URI");
         System.out.printf("GET file: %s\n", path);
-        String body = new String(getFileAsBytes(path));
+        String body = new String(getFileAsBytes(path.toString()));
         
         HTTPResponse response = HTTPResponse.createOKResponse();
         response.setContentType("text/html");
         response.setBody(body);
         client.write(ByteBuffer.wrap(response.serialize()));
-        
     }
 
 

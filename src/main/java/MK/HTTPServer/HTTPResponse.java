@@ -31,6 +31,7 @@ public class HTTPResponse
         response.setVersion("1.1");
         response.setStatusCode("404");
         response.setReasonPhrase("Not Found");
+        response.setContentType("text/plain");
         response.setBody("404 Not Found"); //Future: Replace with default 404 not found page
         return response;
     }
@@ -67,7 +68,7 @@ public class HTTPResponse
         StringBuilder response = new StringBuilder();
         response.append(version + " " + status_code + " " + reason_phrase + "\r\n");
         response.append("Content-Type: " + content_type + "\r\n");
-        response.append("Content-Length: " + content_length + "\r\n");
+        response.append("Content-Length: " + content_length);
         response.append("\r\n\r\n");
         response.append(body);
 
