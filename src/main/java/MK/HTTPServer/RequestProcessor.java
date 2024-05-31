@@ -35,7 +35,7 @@ public class RequestProcessor
         System.out.println("Current directory: " + currentDirectory);
     }
 
-    private static void writeOK(SocketChannel client)
+    private static void writeOK(SocketChannel client) //Use avaiable functions here
         throws IOException
     {
         String httpResponse = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 3\r\n\r\nabc";
@@ -53,7 +53,7 @@ public class RequestProcessor
         client.write(byteBuffer);
     }       
 
-    private static void writeHTMLFile(SocketChannel client, HTTPRequest request)
+    private static void writeHTMLFile(SocketChannel client, HTTPRequest request) //Remove request usage here
         throws IOException
     {
         String path = static_root + request.getField("URI");
