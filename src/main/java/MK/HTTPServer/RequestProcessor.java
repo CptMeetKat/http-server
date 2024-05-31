@@ -17,7 +17,14 @@ public class RequestProcessor
         throws IOException
     {
         //writeOK(client);
-        if( fileExists(request) ) //!directory navigation vuln -> Ennumerate all static files to serve and map
+        Path basePath = new File(static_root).toPath();
+        Path userPath = new File(request.getField("URI")).toPath();
+        Path resolvedPath = PathUtils.resolvePath(basePath, userPath);
+        
+        System.out.printf("basepath %s\n", basePath);
+        System.out.printf("userpath %s\n", userPath);
+
+        if(Files.exists(resolvedPath) ) 
             writeHTMLFile(client, request);
         else
             writeNotFound(client);
@@ -45,15 +52,6 @@ public class RequestProcessor
         ByteBuffer byteBuffer = ByteBuffer.wrap(byteArray);
         client.write(byteBuffer);
     }       
-
-    private static boolean fileExists(HTTPRequest request)
-    {
-
-        Path filePath = Paths.get(  static_root + request.getField("URI")   );
-        System.out.printf("Does Exist: %s\n", filePath);
-        return Files.exists(filePath);
-    }
-
 
     private static void writeHTMLFile(SocketChannel client, HTTPRequest request)
         throws IOException
