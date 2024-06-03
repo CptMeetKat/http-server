@@ -16,9 +16,9 @@ public class RequestProcessor
     public static void processRequest(SocketChannel client, HTTPRequest request)
         throws IOException
     {
-        Path basePath = new File(static_root).toPath();
-        Path userPath = new File("./" + request.getField("URI")).toPath();
-        
+        Path basePath = Paths.get(static_root);
+        Path userPath = Paths.get("./" + request.getField("URI"));
+
         System.out.printf("______basepath %s\n", basePath);
         System.out.printf("______userpath %s\n", userPath);
         System.out.printf("______URIPath %s\n", request.getField("URI"));
