@@ -95,7 +95,15 @@ public class HTTPServer
             {
                 System.out.printf("Final Message: '%s'\n", request_builder.get(socketAddress));
                 HTTPRequest request = new HTTPRequest(request_builder.get(socketAddress).toString());
+                
+
+                HTTPHandlerContext context = new HTTPHandlerContext()
+                    .addSender(client)
+                    .addHTTPRequest(request);
+
                 RequestProcessor.processRequest(client, request);
+
+
                 client.close();
                 request_builder.remove(socketAddress);
             }
