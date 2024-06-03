@@ -15,6 +15,19 @@ public class ConfigManager
         importConfig(config_path);
     }
 
+    private boolean inExclusionList(String target)
+    {
+        final String exclusions[] = new String[]{"***forward_endpoints***"};
+
+        for(String exclude : exclusions)
+        {
+            if(target.equals(exclude))
+                return true;
+        }
+
+        return false;
+    }
+        
     private void importConfig(String config_path)
     {
         try
@@ -22,6 +35,9 @@ public class ConfigManager
             List<String> lines = Files.readAllLines(Paths.get(config_path));
             for(String l : lines)
             {
+                if(inExclusionList(l))
+                    continue;
+
                 String[] config_tuple = l.split("=");
                 if(config_tuple.length > 2)
                 {
