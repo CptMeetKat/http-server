@@ -25,4 +25,9 @@ public class HTTPHandlerContext
     {
         return sender;
     }
+
+    public HTTPRequest getHTTPRequest()
+    {
+        return request;
+    }
 }
