@@ -19,11 +19,13 @@ public class HTTPServer
     private int port;
     private int buffer_length = 3;
     private HashMap<String, StringBuilder> request_builder = new HashMap<>();
+    private String static_root;
 
-    public HTTPServer(int port, int buffer_length)
+    public HTTPServer(int port, int buffer_length, String static_root)
     {
         this.port = port;
         this.buffer_length = buffer_length;
+        this.static_root = static_root;
     }
 
     public void start()
@@ -99,7 +101,8 @@ public class HTTPServer
 
                 HTTPHandlerContext context = new HTTPHandlerContext()
                     .addSender(client)
-                    .addHTTPRequest(request);
+                    .addHTTPRequest(request)
+                    .addStaticRoot(static_root);
 
 
                 RequestRouter.processRequest(context);

@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 
 public class RequestRouter
 {
-    public static String static_root = "";
 
 //ideally this class is for static application, need a new application for offloading1,
 //Then need another for sanitisations
@@ -17,7 +16,7 @@ public class RequestRouter
 
         HTTPRequest request = context.getHTTPRequest();
 
-        Path basePath = Paths.get(static_root);
+        Path basePath = Paths.get(context.getStaticRoot());
         Path userPath = Paths.get("./" + request.getField("URI"));
 
         Path resolvedPath = PathUtils.resolvePath(basePath, userPath);

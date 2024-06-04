@@ -6,6 +6,7 @@ public class HTTPHandlerContext
 {
     SocketChannel sender;
     HTTPRequest request;
+    String static_root;
 
     public HTTPHandlerContext (){}
 
@@ -15,6 +16,18 @@ public class HTTPHandlerContext
         return this;
     }
 
+
+
+    public HTTPHandlerContext addStaticRoot(String static_root)
+    {
+        this.static_root = static_root;
+        return this;
+    }
+
+    public String getStaticRoot()
+    {
+        return static_root;
+    }
     public HTTPHandlerContext addHTTPRequest(HTTPRequest request)
     {
         this.request = request;

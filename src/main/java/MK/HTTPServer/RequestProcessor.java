@@ -12,8 +12,6 @@ import java.nio.channels.WritableByteChannel;
 
 public class RequestProcessor
 {
-    public static String static_root = "";
-
     public static void processRequest(HTTPHandlerContext context)
         throws IOException
     {
@@ -21,7 +19,7 @@ public class RequestProcessor
         HTTPRequest request = context.getHTTPRequest();
         WritableByteChannel channel = context.getSender();
 
-        Path basePath = Paths.get(static_root);
+        Path basePath = Paths.get(context.getStaticRoot());
         Path userPath = Paths.get("./" + request.getField("URI"));
 
         System.out.printf("______basepath %s\n", basePath);
