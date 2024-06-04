@@ -16,6 +16,7 @@ public class App
 
         int port = Integer.parseInt(manager.getField("port"));
         RequestProcessor.static_root = manager.getField("static_root");
+        RequestRouter.static_root = manager.getField("static_root");
         int buffer_size = Integer.parseInt(manager.getField("buffer_size"));
 
 

@@ -4,18 +4,23 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.channels.SocketChannel;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.channels.WritableByteChannel;
+
 
 public class RequestProcessor
 {
     public static String static_root = "";
-    public static void processRequest(SocketChannel client, HTTPRequest request)
+
+    public static void processRequest(HTTPHandlerContext context)
         throws IOException
     {
+
+        HTTPRequest request = context.getHTTPRequest();
+        WritableByteChannel channel = context.getSender();
+
         Path basePath = Paths.get(static_root);
         Path userPath = Paths.get("./" + request.getField("URI"));
 
@@ -23,13 +28,13 @@ public class RequestProcessor
         System.out.printf("______userpath %s\n", userPath);
         System.out.printf("______URIPath %s\n", request.getField("URI"));
 
-
-
+        //Pipeline Sanitize, Routeing
         Path resolvedPath = PathUtils.resolvePath(basePath, userPath);
+
         if(Files.exists(resolvedPath) ) 
-            writeHTMLFile(client, resolvedPath);
+            writeHTMLFile(channel, resolvedPath);
         else
-            writeNotFound(client);
+            writeNotFound(channel);
 
         String currentDirectory = System.getProperty("user.dir");
         
@@ -37,14 +42,14 @@ public class RequestProcessor
         System.out.println("Current directory: " + currentDirectory);
     }
 
-    private static void writeNotFound(SocketChannel client)
+    private static void writeNotFound(WritableByteChannel client)
         throws IOException
     {
         HTTPResponse response = HTTPResponse.createNotFoundResponse();
         client.write(ByteBuffer.wrap(response.serialize()));
     }       
 
-    private static void writeHTMLFile(SocketChannel client, Path path) //Remove request usage here
+    private static void writeHTMLFile(WritableByteChannel client, Path path) //Remove request usage here
         throws IOException
     {
         System.out.printf("GET file: %s\n", path);

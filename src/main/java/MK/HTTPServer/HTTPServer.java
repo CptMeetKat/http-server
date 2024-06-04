@@ -101,7 +101,9 @@ public class HTTPServer
                     .addSender(client)
                     .addHTTPRequest(request);
 
-                RequestProcessor.processRequest(client, request);
+
+                RequestRouter.processRequest(context);
+                //RequestProcessor.processRequest(client, request);
 
 
                 client.close();
