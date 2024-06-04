@@ -29,7 +29,7 @@ public class RequestProcessor
         //Pipeline Sanitize, Routeing
         Path resolvedPath = PathUtils.resolvePath(basePath, userPath);
 
-        if(Files.exists(resolvedPath) ) 
+        if(Files.exists(resolvedPath) && ! Files.isDirectory(resolvedPath)) 
             writeHTMLFile(channel, resolvedPath);
         else
             writeNotFound(channel);
