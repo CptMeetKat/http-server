@@ -19,7 +19,7 @@ public class DynamicApplication
             OutputStream output = socket.getOutputStream();
             PrintWriter writer = new PrintWriter(output, true);
 
-            writer.println(message);
+            writer.println("GET / HTTP/1.1\r\nTEST\r\n\r\n");
 
             System.out.println("Message sent to the server: " + message);
 
