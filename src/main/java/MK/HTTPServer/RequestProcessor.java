@@ -10,12 +10,10 @@ import java.nio.file.Paths;
 import java.nio.channels.WritableByteChannel;
 
 
-public class RequestProcessor
+public class RequestProcessor extends BaseHTTPHandler
 {
-    public static void processRequest(HTTPHandlerContext context)
-        throws IOException
+    public void processRequest(HTTPHandlerContext context)
     {
-
         HTTPRequest request = context.getHTTPRequest();
         WritableByteChannel channel = context.getSender();
 
@@ -29,10 +27,17 @@ public class RequestProcessor
         //Pipeline Sanitize, Routeing
         Path resolvedPath = PathUtils.resolvePath(basePath, userPath);
 
-        if(Files.exists(resolvedPath) && ! Files.isDirectory(resolvedPath)) 
-            writeHTMLFile(channel, resolvedPath);
-        else
-            writeNotFound(channel);
+        try
+        {
+            if(Files.exists(resolvedPath) && ! Files.isDirectory(resolvedPath)) 
+                writeHTMLFile(channel, resolvedPath);
+            else
+                writeNotFound(channel);
+        }
+        catch(IOException e)
+        {
+            System.out.println("ERROR");
+        }
 
         String currentDirectory = System.getProperty("user.dir");
         

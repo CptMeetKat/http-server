@@ -4,9 +4,12 @@ package MK.HTTPServer;
 public abstract class BaseHTTPHandler implements HTTPRequestHandler
 {
     public HTTPRequestHandler next;   
-    public void setNext(HTTPRequestHandler tail)
+    public void setTail(HTTPRequestHandler tail)
     {
-        this.next = tail;
+        if(this.next == null)
+            this.next = tail;
+        else
+            this.next.setTail(tail);
     }
     public abstract void processRequest(HTTPHandlerContext context);
     

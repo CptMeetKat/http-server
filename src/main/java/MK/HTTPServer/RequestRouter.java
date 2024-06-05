@@ -1,17 +1,14 @@
 package MK.HTTPServer;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
-public class RequestRouter
+public class RequestRouter extends BaseHTTPHandler
 {
 
 //ideally this class is for static application, need a new application for offloading1,
 //Then need another for sanitisations
-    public static void processRequest(HTTPHandlerContext context)
-        throws IOException
+    public void processRequest(HTTPHandlerContext context)
     {
 
         HTTPRequest request = context.getHTTPRequest();
@@ -30,7 +27,7 @@ public class RequestRouter
         }
         else
         {
-            RequestProcessor.processRequest(context);
+            this.processRequest(context);
         }
 
         String currentDirectory = System.getProperty("user.dir");

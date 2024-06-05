@@ -19,9 +19,10 @@ public class App
         String static_root = manager.getField("static_root");
 
 
-        HTTPServer server = new HTTPServer(port, buffer_size, static_root);
+        BaseHTTPHandler pipeline = new RequestRouter();
+        pipeline.setTail(new RequestProcessor());
+
+        HTTPServer server = new HTTPServer(port, buffer_size, static_root, pipeline);
         server.start();
     }
-
-
 }

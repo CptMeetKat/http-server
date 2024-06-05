@@ -20,12 +20,14 @@ public class HTTPServer
     private int buffer_length = 3;
     private HashMap<String, StringBuilder> request_builder = new HashMap<>();
     private String static_root;
+    private BaseHTTPHandler pipeline;
 
-    public HTTPServer(int port, int buffer_length, String static_root)
+    public HTTPServer(int port, int buffer_length, String static_root, BaseHTTPHandler pipeline)
     {
         this.port = port;
         this.buffer_length = buffer_length;
         this.static_root = static_root;
+        this.pipeline = pipeline;
     }
 
     public void start()
@@ -105,8 +107,7 @@ public class HTTPServer
                     .addStaticRoot(static_root);
 
 
-                RequestRouter.processRequest(context);
-                //RequestProcessor.processRequest(client, request);
+                pipeline.processRequest(context);
 
 
                 client.close();
