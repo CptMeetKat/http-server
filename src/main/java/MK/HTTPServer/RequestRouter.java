@@ -1,5 +1,8 @@
 package MK.HTTPServer;
 
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -22,12 +25,22 @@ public class RequestRouter extends BaseHTTPHandler
 
         if(resolvedPath.startsWith(application1Path.toString()))
         {
-            System.out.println("Handling dyhanmic request");
-            DynamicApplication.sendRequest("hello");
+            System.out.println("Handling dynamic request");
+            String result = DynamicApplication.sendRequest("hello");
+            SocketChannel sc = context.getSender();
+            try
+            {
+                sc.write(  ByteBuffer.wrap(result.getBytes())  );
+            }
+            catch(IOException e)
+            {
+                System.out.println("ERROR: Could not send the routed response");
+            }
+            
         }
         else
         {
-            this.processRequest(context);
+            this.next.processRequest(context);
         }
 
         String currentDirectory = System.getProperty("user.dir");
