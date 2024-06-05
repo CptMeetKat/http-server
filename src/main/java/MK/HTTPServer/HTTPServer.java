@@ -40,9 +40,10 @@ public class HTTPServer
             serverSocketChannel.configureBlocking(false); 
             int ops = serverSocketChannel.validOps(); 
             serverSocketChannel.register(selector, ops, null); 
-
+    
             while (true) { 
-                selector.select(); //Select keys that are ready
+
+                selector.select(); //Select keys that are ready //Blocking
                 Set<SelectionKey> selectedKeys = selector.selectedKeys(); //Get the keys
                 Iterator<SelectionKey> i = selectedKeys.iterator(); 
 
@@ -50,12 +51,12 @@ public class HTTPServer
                     SelectionKey key = i.next(); 
 
                     if (key.isAcceptable()) 
-                        handleAccept(serverSocketChannel, key); 
+                        handleAccept(key); 
                     else if (key.isReadable()) 
                         handleRead(key); 
                     i.remove(); 
                 } 
-            } 
+            }
         } 
         catch (IOException e) { 
             e.printStackTrace(); 
@@ -64,12 +65,14 @@ public class HTTPServer
     }
 
     private void
-        handleAccept(ServerSocketChannel mySocket, 
-                SelectionKey key) throws IOException 
+        handleAccept(SelectionKey key)
+            throws IOException 
         { 
+            ServerSocketChannel server = (ServerSocketChannel) key.channel();
+
             System.out.println("****ACCEPT****");
             System.out.println("Connection Accepted.."); 
-            SocketChannel client = mySocket.accept(); 
+            SocketChannel client = server.accept(); 
             client.configureBlocking(false); 
             client.register(selector, SelectionKey.OP_READ); 
         } 
