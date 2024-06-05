@@ -19,11 +19,15 @@ public class HTTPServer
     private int port;
     private int buffer_length = 3;
     private HashMap<String, StringBuilder> request_builder = new HashMap<>();
+    private String static_root;
+    private BaseHTTPHandler pipeline;
 
-    public HTTPServer(int port, int buffer_length)
+    public HTTPServer(int port, int buffer_length, String static_root, BaseHTTPHandler pipeline)
     {
         this.port = port;
         this.buffer_length = buffer_length;
+        this.static_root = static_root;
+        this.pipeline = pipeline;
     }
 
     public void start()
@@ -95,7 +99,17 @@ public class HTTPServer
             {
                 System.out.printf("Final Message: '%s'\n", request_builder.get(socketAddress));
                 HTTPRequest request = new HTTPRequest(request_builder.get(socketAddress).toString());
-                RequestProcessor.processRequest(client, request);
+                
+
+                HTTPHandlerContext context = new HTTPHandlerContext()
+                    .addSender(client)
+                    .addHTTPRequest(request)
+                    .addStaticRoot(static_root);
+
+
+                pipeline.processRequest(context);
+
+
                 client.close();
                 request_builder.remove(socketAddress);
             }

@@ -15,14 +15,14 @@ public class App
         System.out.println("*******************");
 
         int port = Integer.parseInt(manager.getField("port"));
-        RequestProcessor.static_root = manager.getField("static_root");
         int buffer_size = Integer.parseInt(manager.getField("buffer_size"));
+        String static_root = manager.getField("static_root");
 
 
+        BaseHTTPHandler pipeline = new RequestRouter();
+        pipeline.setTail(new RequestProcessor());
 
-        HTTPServer server = new HTTPServer(port, buffer_size);
+        HTTPServer server = new HTTPServer(port, buffer_size, static_root, pipeline);
         server.start();
     }
-
-
 }
