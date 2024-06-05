@@ -23,10 +23,11 @@ public class RequestRouter extends BaseHTTPHandler
         
         Path application1Path = Paths.get(basePath.toString(), "dynamic"); 
 
-        if(resolvedPath.startsWith(application1Path.toString()))
+        //This needs to go.
+                if(resolvedPath.startsWith(application1Path.toString()))
         {
             System.out.println("Handling dynamic request");
-            String result = DynamicApplication.sendRequest("hello");
+            String result = DynamicApplication.sendRequest(context.getHTTPRequest());
             SocketChannel sc = context.getSender();
             try
             {

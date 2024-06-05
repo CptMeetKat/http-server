@@ -1,14 +1,18 @@
 package MK.HTTPServer;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 public class HTTPRequest
 {
+    String original_request;
+
     HashMap<String,String> request_map = new HashMap<>();
 
     public HTTPRequest(String request)
     {
         setRequest(request);
+        this.original_request = request;
         System.out.println(this);
     }
 
@@ -48,5 +52,11 @@ public class HTTPRequest
             result.append( field + ":" + request_map.get(field) + "\n");
         }
         return result.toString();
+    }
+
+    public byte[] serialize()
+    {
+        byte[] bytes = original_request.toString().getBytes(StandardCharsets.UTF_8);
+        return bytes;
     }
 }

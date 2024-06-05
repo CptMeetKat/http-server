@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 
 public class DynamicApplication
 {
-    public static String sendRequest(String message)
+    public static String sendRequest(HTTPRequest request)
     {
         String hostname = "localhost"; // Server address
         int port = 8000; // Server port number
@@ -19,18 +19,14 @@ public class DynamicApplication
 
         try {
             socket = new Socket(hostname, port);
+
             OutputStream output = socket.getOutputStream();
-            PrintWriter writer = new PrintWriter(output, true);
+            output.write(request.serialize());
+            output.flush();
 
-            writer.println("GET / HTTP/1.1\r\nTEST\r\n\r\n");
-
-            System.out.println("Message sent to the server: " + message);
-            // Read response from the server
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            
             int response_char;
             while ((response_char = reader.read()) != -1) {
-                System.out.println("Server response: " + (char)response_char);
                 result += (char)response_char;
             }
 
