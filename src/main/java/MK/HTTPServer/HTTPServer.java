@@ -7,8 +7,11 @@ public class HTTPServer
 {
     SocketManager multiplexer;
 
-    public HTTPServer(int port, int buffer_length, String static_root, BaseHTTPHandler pipeline)
+    public HTTPServer(int port, int buffer_length, String static_root)
     {
+        BaseHTTPHandler pipeline = new RequestRouter();
+        pipeline.setTail(new RequestProcessor());
+
         try
         {
             multiplexer = new SocketManager();
