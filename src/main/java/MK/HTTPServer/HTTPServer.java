@@ -12,10 +12,9 @@ public class HTTPServer
         try
         {
             multiplexer = new SocketManager();
-            HTTPServerOperations operations = new HTTPServerOperations(static_root, pipeline, buffer_length);
-
+            HTTPServerOperations operations = new HTTPServerOperations(static_root, pipeline,
+                                                                       buffer_length);
             multiplexer.registerServerSocket("localhost", port, operations);
-//            multiplexer.registerServerSocket("localhost", 2025, operations);
         }
         catch(IOException e)
         {
@@ -23,16 +22,14 @@ public class HTTPServer
         }
     }
 
-
     public void start()
     {
         try { 
             multiplexer.run();
         } 
         catch (IOException e) { 
-            e.printStackTrace(); 
+            System.out.println("An error occurred: " + e.getMessage());
         } 
     }
-
 }
 
