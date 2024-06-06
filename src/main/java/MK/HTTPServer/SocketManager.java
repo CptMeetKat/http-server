@@ -51,14 +51,13 @@ public class SocketManager
 
                 if (key.isAcceptable()) 
                 {
-                    System.out.println("****ACCEPT****");
-                    System.out.println("Connection Accepted.."); 
+                    System.out.println("***Accepted connection***"); 
                     operations.accept(key);
                 }
 
                 else if (key.isReadable()) 
                 {
-                    System.out.println("****READ****");
+                    System.out.println("***Reading connection***");
                     operations.read(key);
                 }
                 i.remove(); 
