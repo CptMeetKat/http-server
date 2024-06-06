@@ -11,10 +11,9 @@ import java.util.HashMap;
 
 public class HTTPServerOperations implements SelectionKeyOperations
 {
-
     private String static_root;
     private BaseHTTPHandler pipeline;
-    private int buffer_length = 256;
+    private int buffer_length = 256; //This is also managed through config
     private HashMap<String, StringBuilder> request_builder = new HashMap<>();
 
     public HTTPServerOperations(String static_root, BaseHTTPHandler pipeline, int buffer_length)
