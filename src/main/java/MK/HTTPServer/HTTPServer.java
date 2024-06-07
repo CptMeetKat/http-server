@@ -14,7 +14,7 @@ public class HTTPServer
             multiplexer = SocketManager.getSocketManager();
 
             BaseHTTPHandler pipeline = new RequestRouter();
-            pipeline.setTail(new RequestProcessor());
+            pipeline.setTail(new StaticRequests());
             HTTPServerOperations operations = new HTTPServerOperations(static_root, pipeline,
                                                                        buffer_length);
             multiplexer.registerServerSocket("localhost", port, operations);

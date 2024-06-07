@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 import java.nio.channels.WritableByteChannel;
 
 
-public class RequestProcessor extends BaseHTTPHandler
+public class StaticRequests extends BaseHTTPHandler
 {
     public void processRequest(HTTPHandlerContext context)
     {
