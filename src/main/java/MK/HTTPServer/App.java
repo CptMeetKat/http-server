@@ -18,11 +18,7 @@ public class App
         int buffer_size = Integer.parseInt(manager.getField("buffer_size"));
         String static_root = manager.getField("static_root");
 
-
-        BaseHTTPHandler pipeline = new RequestRouter();
-        pipeline.setTail(new RequestProcessor());
-
-        HTTPServer server = new HTTPServer(port, buffer_size, static_root, pipeline);
+        HTTPServer server = new HTTPServer(port, buffer_size, static_root);
         server.start();
     }
 }

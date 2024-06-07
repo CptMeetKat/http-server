@@ -1,16 +1,24 @@
 package MK.HTTPServer;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.channels.SocketChannel;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class RequestRouter extends BaseHTTPHandler
 {
+    SocketManager connection_manager;
+    public RequestRouter()
+    {
+        try
+        {
+            this.connection_manager = SocketManager.getSocketManager();
+        }
+        catch(IOException e)
+        {
+            System.out.println();
+        }
+    }
 
-//ideally this class is for static application, need a new application for offloading1,
-//Then need another for sanitisations
     public void processRequest(HTTPHandlerContext context)
     {
 
@@ -24,20 +32,10 @@ public class RequestRouter extends BaseHTTPHandler
         Path application1Path = Paths.get(basePath.toString(), "dynamic"); 
 
         //This needs to go.
-                if(resolvedPath.startsWith(application1Path.toString()))
+        if(resolvedPath.startsWith(application1Path.toString()))
         {
             System.out.println("Handling dynamic request");
-            String result = DynamicApplication.sendRequest(context.getHTTPRequest());
-            SocketChannel sc = context.getSender();
-            try
-            {
-                sc.write(  ByteBuffer.wrap(result.getBytes())  );
-            }
-            catch(IOException e)
-            {
-                System.out.println("ERROR: Could not send the routed response");
-            }
-            
+            connection_manager.registerClientSocket("localhost", 8000, new ApplicationServerOperations(context.getHTTPRequest(), context.getSender()));
         }
         else
         {
