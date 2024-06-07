@@ -9,12 +9,12 @@ public class HTTPServer
 
     public HTTPServer(int port, int buffer_length, String static_root)
     {
-        BaseHTTPHandler pipeline = new RequestRouter();
-        pipeline.setTail(new RequestProcessor());
-
         try
         {
-            multiplexer = new SocketManager();
+            multiplexer = SocketManager.getSocketManager();
+
+            BaseHTTPHandler pipeline = new RequestRouter();
+            pipeline.setTail(new RequestProcessor());
             HTTPServerOperations operations = new HTTPServerOperations(static_root, pipeline,
                                                                        buffer_length);
             multiplexer.registerServerSocket("localhost", port, operations);

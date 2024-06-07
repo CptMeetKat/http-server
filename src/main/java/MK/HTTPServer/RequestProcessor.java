@@ -33,6 +33,7 @@ public class RequestProcessor extends BaseHTTPHandler
                 writeHTMLFile(channel, resolvedPath);
             else
                 writeNotFound(channel);
+            context.getSender().close(); //not sure i like this here
         }
         catch(IOException e)
         {

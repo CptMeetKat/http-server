@@ -74,7 +74,7 @@ public class HTTPServerOperations implements SelectionKeyOperations
 
                 pipeline.processRequest(context);
 
-                client.close();
+                //client.close();
                 request_builder.remove(socketAddress);
             }
         }
@@ -82,5 +82,17 @@ public class HTTPServerOperations implements SelectionKeyOperations
         {
             System.out.println(e);
         }
+	}
+
+	@Override
+	public void connect(SelectionKey key) {
+		// Server cannot connect
+		throw new UnsupportedOperationException("Unimplemented method 'connect'");
+	}
+
+	@Override
+	public void write(SelectionKey key) {
+		// Server cannot write
+		throw new UnsupportedOperationException("Unimplemented method 'write'");
 	}
 }
