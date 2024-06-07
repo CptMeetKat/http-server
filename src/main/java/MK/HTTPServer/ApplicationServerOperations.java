@@ -2,8 +2,6 @@
 package MK.HTTPServer;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
@@ -15,7 +13,6 @@ public class ApplicationServerOperations implements SelectionKeyOperations
     private HashMap<String, StringBuilder> request_builder = new HashMap<>();
     HTTPRequest httpRequest;
     SocketChannel sender;
-    String data = "";
 	public ApplicationServerOperations(HTTPRequest httpRequest, SocketChannel sender) {
 		this.httpRequest = httpRequest;
         this.sender = sender;
@@ -29,10 +26,8 @@ public class ApplicationServerOperations implements SelectionKeyOperations
 
 	@Override
 	public void read(SelectionKey key) {
-        //Dont think we care about read
         try
         {
-            System.out.println("------test");
             int buffer_length = 10;
             SocketChannel client = (SocketChannel)key.channel(); 
             String socketAddress = client.getRemoteAddress().toString();
@@ -43,19 +38,20 @@ public class ApplicationServerOperations implements SelectionKeyOperations
             System.out.println("LEN: " + received_length);
             if(received_length == -1)
             {
-                System.out.println("FULL DATA: " + data);
-                
-                sender.write(ByteBuffer.wrap(data.getBytes()));
+                String fulldata = request_builder.get(socketAddress).toString();
+                System.out.println("FULL DATA: " + fulldata);
+                sender.write(   ByteBuffer.wrap(fulldata.getBytes())    );
                 client.close();
                 sender.close(); //this work here, not sure if correct here
             }
             else
             {
-                data += new String(buffer.array()).substring(0, received_length);
+                String data = new String(buffer.array()).substring(0, received_length);
+                if(request_builder.containsKey(socketAddress))
+                    request_builder.get(socketAddress).append(data);
+                else
+                    request_builder.put(socketAddress, new StringBuilder(data));
             }
-
-            System.out.println("End read");
-
         }
         catch(IOException e)
         {
@@ -65,7 +61,7 @@ public class ApplicationServerOperations implements SelectionKeyOperations
 
 	@Override
 	public void connect(SelectionKey key) {
-		throw new UnsupportedOperationException("Unimplemented method 'read'");
+		throw new UnsupportedOperationException("Unimplemented method 'connect'");
 	}
 
 	@Override
