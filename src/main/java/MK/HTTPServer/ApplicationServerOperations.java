@@ -47,7 +47,7 @@ public class ApplicationServerOperations implements SelectionKeyOperations
                 
                 sender.write(ByteBuffer.wrap(data.getBytes()));
                 client.close();
-                sender.close();
+                sender.close(); //this work here, not sure if correct here
             }
             else
             {
@@ -71,7 +71,6 @@ public class ApplicationServerOperations implements SelectionKeyOperations
 	@Override
 	public void write(SelectionKey key) {
         SocketChannel channel = (SocketChannel) key.channel();
-        Socket client = (Socket) channel.socket();
 
         System.out.println("Fake writing...");
         try
