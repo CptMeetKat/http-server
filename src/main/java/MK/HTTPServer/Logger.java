@@ -2,6 +2,13 @@ package MK.HTTPServer;
 
 public class Logger
 {
+    public static Logger logger;
+    public static Logger getLogger()
+    {
+        if(logger == null)
+            return new Logger();
+        return logger;
+    }
 
     private PrintLevel minimum_level = PrintLevel.TRACE;
     // ANSI escape codes for colors
