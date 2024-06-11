@@ -1,7 +1,10 @@
 package MK.HTTPServer;
 
+import MK.HTTPServer.Logger.PrintLevel;
+
 public class App 
 {
+    Logger logger;
     public static void main(String[] args) 
     {
         new App();
@@ -9,6 +12,9 @@ public class App
 
     public App()
     {
+        Logger.setLogger(PrintLevel.TRACE);
+        Logger logger = Logger.getLogger();
+
         ConfigManager manager = new ConfigManager("./server.config");
         System.out.println("***Loaded Config***");
         System.out.print(manager);
