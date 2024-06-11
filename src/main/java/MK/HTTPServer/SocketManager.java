@@ -3,7 +3,6 @@ package MK.HTTPServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
@@ -11,11 +10,13 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
 
+import MK.HTTPServer.Logger.PrintLevel;
+
 public class SocketManager
 {
     private static SocketManager manager = null;
     private Selector selector = null; 
-
+    private Logger logger;
     public static SocketManager getSocketManager()
         throws IOException
     {
@@ -30,6 +31,7 @@ public class SocketManager
     private SocketManager()
         throws IOException
     {
+        this.logger = Logger.getLogger();
         selector = Selector.open(); 
     }
 
@@ -83,23 +85,23 @@ public class SocketManager
 
                 if (key.isAcceptable()) 
                 {
-                    System.out.println("***Accepted connection***"); 
+                    logger.print(PrintLevel.TRACE, "***Accepted connection***"); 
                     operations.accept(key);
                 }
 
                 else if (key.isReadable()) 
                 {
-                    System.out.println("***Reading connection***");
+                    logger.print(PrintLevel.TRACE, "***Reading connection***");
                     operations.read(key);
                 }
                 else if(key.isConnectable())
                 {
-                    System.out.println("***Connecting application***");
+                    logger.print(PrintLevel.TRACE, "***Connecting application***");
                     operations.connect(key);
                 }
                 else if(key.isWritable())
                 {
-                    System.out.println("***Writing application***");
+                    logger.print(PrintLevel.TRACE, "***Writing application***");
                     operations.write(key);
                 }
                 i.remove(); 

@@ -9,15 +9,19 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.HashMap;
 
+import MK.HTTPServer.Logger.PrintLevel;
+
 public class HTTPServerOperations implements SelectionKeyOperations
 {
     private String static_root;
     private BaseHTTPHandler pipeline;
     private int buffer_length = 256; //This is also managed through config
     private HashMap<String, StringBuilder> request_builder = new HashMap<>();
+    private Logger logger;
 
     public HTTPServerOperations(String static_root, BaseHTTPHandler pipeline, int buffer_length)
     {
+        this.logger = Logger.getLogger();
         this.static_root = static_root;
         this.pipeline = pipeline;
         this.buffer_length = buffer_length;
@@ -52,8 +56,8 @@ public class HTTPServerOperations implements SelectionKeyOperations
             String data = new String(buffer.array());
             data = data.substring(0, received_length);
 
-            System.out.printf("___Received length %d bytes from %s\n", received_length , socketAddress);
-            System.out.printf("Received message: '%s'\n", data);
+            logger.printf(PrintLevel.TRACE, "Received length %d bytes from %s\n", received_length , socketAddress);
+            logger.printf(PrintLevel.TRACE,"Received message: '%s'\n", data);
 
             if(request_builder.containsKey(socketAddress))
                 request_builder.get(socketAddress).append(data);
@@ -62,7 +66,7 @@ public class HTTPServerOperations implements SelectionKeyOperations
 
             if( request_builder.get(socketAddress).toString().endsWith("\r\n\r\n") ) //may change later when body is parsed
             {
-                System.out.printf("Final Message: '%s'\n", request_builder.get(socketAddress));
+                logger.printf(PrintLevel.TRACE, "Final Message: '%s'\n", request_builder.get(socketAddress));
                 HTTPRequest request = new HTTPRequest(request_builder.get(socketAddress).toString());
                 
 
