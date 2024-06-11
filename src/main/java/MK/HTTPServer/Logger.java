@@ -3,6 +3,7 @@ package MK.HTTPServer;
 public class Logger
 {
 
+    private PrintLevel minimum_level = PrintLevel.TRACE;
     // ANSI escape codes for colors
     public static final String RESET = "\033[0m";  // Text Reset
     public static final String CYAN = "\033[0;36m";   // CYAN
@@ -23,13 +24,23 @@ public class Logger
 
     public Logger(){}
 
+    public Logger(PrintLevel minimum_level)
+    {
+        this.minimum_level = minimum_level;
+    }
+
     public void print(String message)
     {
+        if(PrintLevel.INFO.ordinal() < minimum_level.ordinal())
+            return;
         System.out.println("[INFO]: " + message);
     }
 
     public void print(PrintLevel level, String message)
     {
+        if(level.ordinal() < minimum_level.ordinal())
+            return;
+
         switch (level) {
             case TRACE:
                 System.out.println(CYAN + "[TRACE]: " + message + RESET);
