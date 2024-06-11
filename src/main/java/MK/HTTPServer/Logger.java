@@ -55,10 +55,10 @@ public class Logger
                 System.out.println(YELLOW + "[WARNING]: " + message + RESET);
                 break;
             case ERROR:
-                System.err.println(RED + "[ERROR]: " + message + RESET);  // Using System.err for errors
+                System.err.println(RED + "[ERROR]: " + message + RESET);  
                 break;
             case CRITICAL:
-                System.out.println(MAGENTA + "[CRITICAL]: " + message + RESET);
+                System.err.println(MAGENTA + "[CRITICAL]: " + message + RESET);
                 break;
             default:
                 System.out.println("[UNKNOWN]: " + message);
