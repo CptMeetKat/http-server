@@ -1,5 +1,6 @@
 package MK.HTTPServer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,6 +10,7 @@ import java.util.List;
 public class ConfigManager
 {
     private HashMap<String, String> config = new HashMap<>();
+    private ArrayList<String> field_order = new ArrayList<String>();//Maintain order for printing
 
     public ConfigManager(String config_path)
     {
@@ -27,6 +29,12 @@ public class ConfigManager
 
         return false;
     }
+
+    private void addConfig(String key, String value)
+    {
+        config.put(key,value);
+        field_order.add(key);
+    }
         
     private void importConfig(String config_path)
     {
@@ -44,7 +52,7 @@ public class ConfigManager
                     System.err.println("Config error: more than 1 value pair detected");
                     System.exit(1);
                 }
-                config.put(config_tuple[0], config_tuple[1]);
+                addConfig(config_tuple[0], config_tuple[1]);
             }
         }
         catch(IOException e)
@@ -74,7 +82,7 @@ public class ConfigManager
     public String toString()
     {
         StringBuilder builder = new StringBuilder();
-        for(String key : config.keySet())
+        for(String key : field_order)
         {
             builder.append(key + "=" + config.get(key) + "\n");
         }
