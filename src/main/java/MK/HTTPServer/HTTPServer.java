@@ -7,13 +7,13 @@ public class HTTPServer
 {
     SocketManager multiplexer;
 
-    public HTTPServer(int port, int buffer_length, String static_root)
+    public HTTPServer(int port, int buffer_length, String static_root, Iterable<Route> routes)
     {
         try
         {
             multiplexer = SocketManager.getSocketManager();
 
-            BaseHTTPHandler pipeline = new RequestRouter();
+            BaseHTTPHandler pipeline = new RequestRouter(routes);
             pipeline.setTail(new StaticRequests());
             HTTPServerOperations operations = new HTTPServerOperations(static_root, pipeline,
                                                                        buffer_length);

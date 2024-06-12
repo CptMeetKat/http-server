@@ -9,8 +9,14 @@ public class RequestRouter extends BaseHTTPHandler
 {
     SocketManager connection_manager;
     ArrayList<Route> routes = new ArrayList<Route>();
-    public RequestRouter()
+    public RequestRouter(Iterable<Route> routes)
     {
+        for(Route r : routes)
+        {
+            this.routes.add(r);
+        }
+
+
         try
         {
             this.connection_manager = SocketManager.getSocketManager();
@@ -19,9 +25,6 @@ public class RequestRouter extends BaseHTTPHandler
         {
             System.out.println();
         }
-
-
-        routes.add(new Route("localhost", 8000, "dynamic"));
     }
 
     public void addRoute(Route r)

@@ -1,5 +1,7 @@
 package MK.HTTPServer;
 
+import java.util.ArrayList;
+
 import MK.HTTPServer.Logger.PrintLevel;
 
 public class App 
@@ -24,7 +26,11 @@ public class App
 
 
         Logger.setLogger(PrintLevel.fromInt(log_level));
-        HTTPServer server = new HTTPServer(port, buffer_size, static_root);
+
+        ArrayList<Route> routes = new ArrayList<Route>();
+        routes.add(new Route("localhost", 8000, "dynamic"));
+
+        HTTPServer server = new HTTPServer(port, buffer_size, static_root, routes);
         server.start();
     }
 }
