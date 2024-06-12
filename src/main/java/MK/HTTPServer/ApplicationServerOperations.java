@@ -68,7 +68,6 @@ public class ApplicationServerOperations implements SelectionKeyOperations
 	public void write(SelectionKey key) {
         SocketChannel channel = (SocketChannel) key.channel();
 
-        System.out.println("Fake writing...");
         try
         {
             channel.write(ByteBuffer.wrap(httpRequest.serialize()));
