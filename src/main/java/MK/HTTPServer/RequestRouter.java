@@ -3,10 +3,12 @@ package MK.HTTPServer;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class RequestRouter extends BaseHTTPHandler
 {
     SocketManager connection_manager;
+    ArrayList<Route> routes = new ArrayList<Route>();
     public RequestRouter()
     {
         try
@@ -17,6 +19,11 @@ public class RequestRouter extends BaseHTTPHandler
         {
             System.out.println();
         }
+    }
+
+    public void addRoute(Route r)
+    {
+        routes.add(r);
     }
 
     public void processRequest(HTTPHandlerContext context)
