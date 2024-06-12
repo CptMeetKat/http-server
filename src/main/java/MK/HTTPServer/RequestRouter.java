@@ -19,11 +19,27 @@ public class RequestRouter extends BaseHTTPHandler
         {
             System.out.println();
         }
+
+
+        routes.add(new Route("localhost", 8000, "dynamic"));
     }
 
     public void addRoute(Route r)
     {
         routes.add(r);
+    }
+
+    private Route findMatchingRoute(Path user_path, String static_root)
+    {
+        for(Route r : routes)
+        {
+            String applicationPath = Paths.get(static_root, r.getPath()).toString();
+
+            if(user_path.startsWith(applicationPath))
+                return r;
+        }
+
+        return null;
     }
 
     public void processRequest(HTTPHandlerContext context)
@@ -36,13 +52,11 @@ public class RequestRouter extends BaseHTTPHandler
 
         Path resolvedPath = PathUtils.resolvePath(basePath, userPath);
         
-        Path application1Path = Paths.get(basePath.toString(), "dynamic"); 
-
-        //This needs to go.
-        if(resolvedPath.startsWith(application1Path.toString()))
+        Route route = findMatchingRoute(resolvedPath, context.getStaticRoot());
+        if(route != null)
         {
             System.out.println("Handling dynamic request");
-            connection_manager.registerClientSocket("localhost", 8000, new ApplicationServerOperations(context.getHTTPRequest(), context.getSender()));
+            connection_manager.registerClientSocket(route.getIP(), route.getPort(), new ApplicationServerOperations(context.getHTTPRequest(), context.getSender()));
         }
         else
         {
