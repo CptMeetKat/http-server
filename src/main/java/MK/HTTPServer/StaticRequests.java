@@ -39,11 +39,6 @@ public class StaticRequests extends BaseHTTPHandler
         {
             System.out.println("ERROR");
         }
-
-        String currentDirectory = System.getProperty("user.dir");
-        
-        // Print the current directory
-        System.out.println("Current directory: " + currentDirectory);
     }
 
     private static void writeNotFound(WritableByteChannel client)
