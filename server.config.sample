@@ -1,2 +1,7 @@
-port=
-static_root=
+port=2024
+static_root=<absolute_path_to_static_folder>
+buffer_size=256
+log_level=0
+***forward_endpoints***
+forward_endpoint0=<ip> <port> <endpoint>
+forward_endpoint1=<ip> <port> <endpoint>
