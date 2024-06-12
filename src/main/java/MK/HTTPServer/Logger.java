@@ -29,12 +29,32 @@ public class Logger
 
     public enum PrintLevel
     {
-        TRACE,
-        DEBUG,
-        INFO,
-        WARNING,
-        ERROR,
-        CRITICAL
+        TRACE(0),
+        DEBUG(1),
+        INFO(2),
+        WARNING(3),
+        ERROR(4),
+        CRITICAL(5);
+
+        private final int value;
+
+        PrintLevel(int value) {
+            this.value = value;
+        }
+
+        public int getValue()
+        {
+            return value;
+        }
+
+        public static PrintLevel fromInt(int i) {
+            for (PrintLevel level : PrintLevel.values()) {
+                if (level.getValue() == i) {
+                    return level;
+                }
+            }
+            throw new IllegalArgumentException("Invalid level value: " + i);
+        }
     }
 
     public Logger(){}
