@@ -17,13 +17,11 @@ public class App
         System.out.print(manager);
         System.out.println("*******************");
 
-
-        int log_level = Integer.parseInt(manager.getField("log_level"));
+        int log_level = manager.getInt("log_level");
         Logger.setLogger(PrintLevel.fromInt(log_level));
-        int port = Integer.parseInt(manager.getField("port"));
-        int buffer_size = Integer.parseInt(manager.getField("buffer_size"));
+        int port = manager.getInt("port");
+        int buffer_size = manager.getInt("buffer_size");
         String static_root = manager.getField("static_root");
-
 
         HTTPServer server = new HTTPServer(port, buffer_size, static_root);
         server.start();

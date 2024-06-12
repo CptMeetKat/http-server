@@ -64,6 +64,12 @@ public class ConfigManager
         return config.get(field);
     }
 
+    
+    public int getInt(String field)
+    {
+        return Integer.parseInt(config.get(field));
+    }
+
     @Override
     public String toString()
     {
