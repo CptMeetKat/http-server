@@ -72,6 +72,22 @@ public class ConfigManager
         return config.get(field);
     }
 
+
+    public ArrayList<String> getIncrementedField(String field)
+    {
+        int i = 0;
+        ArrayList<String> result = new ArrayList<String>();
+        
+        String value = config.get(field+i);
+        while(value != null)
+        {
+            result.add(value);
+            i++;
+            value = config.get(field+i);
+        }
+
+        return result;
+    }
     
     public int getInt(String field)
     {

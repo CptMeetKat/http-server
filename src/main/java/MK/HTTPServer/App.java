@@ -20,17 +20,25 @@ public class App
         System.out.println("*******************");
 
         int log_level = manager.getInt("log_level");
-        int port = manager.getInt("port");
+        int inbound_port = manager.getInt("port");
         int buffer_size = manager.getInt("buffer_size");
         String static_root = manager.getField("static_root");
 
 
         Logger.setLogger(PrintLevel.fromInt(log_level));
 
-        ArrayList<Route> routes = new ArrayList<Route>();
-        routes.add(new Route("localhost", 8000, "dynamic"));
 
-        HTTPServer server = new HTTPServer(port, buffer_size, static_root, routes);
+        ArrayList<Route> routes = new ArrayList<Route>();
+
+        ArrayList<String> forwardEndpoints = manager.getIncrementedField("forward_endpoint");
+        for(String endpoint: forwardEndpoints)
+        {
+            String[] tokens = endpoint.split(" ");
+            String ip = tokens[0]; int port = Integer.parseInt(tokens[1]); String path = tokens[2];
+            routes.add(new Route(ip, port, path));
+        }
+
+        HTTPServer server = new HTTPServer(inbound_port, buffer_size, static_root, routes);
         server.start();
     }
 }
