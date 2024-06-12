@@ -15,19 +15,23 @@ public class App
     public App()
     {
         ConfigManager manager = new ConfigManager("./server.config");
-        System.out.println("***Loaded Config***");
-        System.out.print(manager);
-        System.out.println("*******************");
-
         int log_level = manager.getInt("log_level");
         int inbound_port = manager.getInt("port");
         int buffer_size = manager.getInt("buffer_size");
         String static_root = manager.getField("static_root");
 
-
         Logger.setLogger(PrintLevel.fromInt(log_level));
+        ArrayList<Route> routes = createRoutes(manager);
 
 
+
+        printConfig(manager);
+        HTTPServer server = new HTTPServer(inbound_port, buffer_size, static_root, routes);
+        server.start();
+    }
+
+    private ArrayList<Route> createRoutes(ConfigManager manager)
+    {
         ArrayList<Route> routes = new ArrayList<Route>();
 
         ArrayList<String> forwardEndpoints = manager.getIncrementedField("forward_endpoint");
@@ -37,8 +41,15 @@ public class App
             String ip = tokens[0]; int port = Integer.parseInt(tokens[1]); String path = tokens[2];
             routes.add(new Route(ip, port, path));
         }
+        return routes;
+    }
 
-        HTTPServer server = new HTTPServer(inbound_port, buffer_size, static_root, routes);
-        server.start();
+    private void printConfig(ConfigManager manager)
+    {
+        Logger log = Logger.getLogger();
+        log.printf(PrintLevel.INFO,"%s\n%s\n%s\n",
+                    "***Loaded Config***",
+                    manager.toString(),
+                    "*******************");
     }
 }

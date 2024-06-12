@@ -103,6 +103,6 @@ public class ConfigManager
             builder.append(key + "=" + config.get(key) + "\n");
         }
 
-        return builder.toString();
+        return builder.toString().trim();
     }
 }
