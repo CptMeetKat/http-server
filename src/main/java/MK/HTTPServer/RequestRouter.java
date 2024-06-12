@@ -62,10 +62,5 @@ public class RequestRouter extends BaseHTTPHandler
         {
             this.next.processRequest(context);
         }
-
-        String currentDirectory = System.getProperty("user.dir");
-        
-        // Print the current directory
-        System.out.println("Current directory: " + currentDirectory);
     }
 }
