@@ -19,7 +19,8 @@ public class App
         int inbound_port = manager.getInt("port");
         int buffer_size = manager.getInt("buffer_size");
         String static_root = manager.getField("static_root");
-
+        
+        logger = Logger.getLogger();
         Logger.setLogger(PrintLevel.fromInt(log_level));
         ArrayList<Route> routes = createRoutes(manager);
 
@@ -46,8 +47,7 @@ public class App
 
     private void printConfig(ConfigManager manager)
     {
-        Logger log = Logger.getLogger();
-        log.printf(PrintLevel.INFO,"%s\n%s\n%s\n",
+        logger.printf(PrintLevel.INFO,"%s\n%s\n%s\n",
                     "***Loaded Config***",
                     manager.toString(),
                     "*******************");
