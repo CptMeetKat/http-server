@@ -54,21 +54,13 @@ public class SocketManager
     }
 
     public void registerClientSocket(String ip, int port, SelectionKeyOperations callbacks)
+        throws IOException
     {
-        try
-        {
             SocketChannel clientChannel = SocketChannel.open(new InetSocketAddress(ip,port));
 
-           // Socket client = clientChannel.socket();
-           // client.connect(new InetSocketAddress(ip,port));
             clientChannel.configureBlocking(false); 
             int ops = clientChannel.validOps(); 
             clientChannel.register(selector, ops, callbacks); 
-        }
-        catch(IOException e)
-        {
-            System.out.println(e);
-        }
     }
 
     public void run()

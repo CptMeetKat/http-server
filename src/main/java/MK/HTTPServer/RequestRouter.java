@@ -1,6 +1,8 @@
 package MK.HTTPServer;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -45,6 +47,22 @@ public class RequestRouter extends BaseHTTPHandler
         return null;
     }
 
+    public void returnServiceUnavailable(HTTPHandlerContext context)
+    {
+        SocketChannel channel = context.getSender();
+        HTTPResponse response = HTTPResponse.createServiceUnavailable();
+        try
+        {
+            channel.write(ByteBuffer.wrap(response.serialize()));
+        }
+        catch(IOException e2)
+        {
+            System.out.println("Unable to contact sender");
+        }
+
+        //How do we close the HTTP Server
+    }
+
     public void processRequest(HTTPHandlerContext context)
     {
 
@@ -59,7 +77,15 @@ public class RequestRouter extends BaseHTTPHandler
         if(route != null)
         {
             System.out.println("Handling dynamic request");
-            connection_manager.registerClientSocket(route.getIP(), route.getPort(), new ApplicationServerOperations(context.getHTTPRequest(), context.getSender()));
+            try
+            {
+                connection_manager.registerClientSocket(route.getIP(), route.getPort(), new ApplicationServerOperations(context.getHTTPRequest(), context.getSender()));
+            }
+            catch(IOException e)
+            {
+                System.out.println("WARNING! : Unable to connect the 3rd party service");
+                returnServiceUnavailable(context);
+            }
         }
         else
         {

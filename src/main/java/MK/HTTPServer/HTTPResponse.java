@@ -36,6 +36,18 @@ public class HTTPResponse
         return response;
     }
 
+
+    public static HTTPResponse createServiceUnavailable()
+    {
+        HTTPResponse response = new HTTPResponse();
+        response.setVersion("1.1");
+        response.setStatusCode("503");
+        response.setReasonPhrase("Service Unavailable");
+        response.setContentType("text/plain");
+        response.setBody("503 Service Unavailable"); //Future: Replace with default 503 page
+        return response;
+    }
+
     public void setVersion(String version)
     {
         if(version.equals("1.1")) //Only currently supporting 1.1
