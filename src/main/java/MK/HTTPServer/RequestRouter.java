@@ -25,7 +25,7 @@ public class RequestRouter extends BaseHTTPHandler
         }
         catch(IOException e)
         {
-            System.out.println();
+            System.out.println(e);
         }
     }
 
@@ -65,7 +65,6 @@ public class RequestRouter extends BaseHTTPHandler
 
     public void processRequest(HTTPHandlerContext context)
     {
-
         HTTPRequest request = context.getHTTPRequest();
 
         Path basePath = Paths.get(context.getStaticRoot());
