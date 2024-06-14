@@ -3,6 +3,7 @@ package MK.HTTPServer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,7 +32,7 @@ public class StaticRequests extends BaseHTTPHandler
                 response = getHTMLFile(resolvedPath);
             else
                 response = HTTPResponse.createNotFoundResponse();
-            sender.send(response);
+            sender.send(ByteBuffer.wrap(response.serialize()));
         }
         catch(IOException e)
         {

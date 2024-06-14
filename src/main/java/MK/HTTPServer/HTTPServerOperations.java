@@ -3,6 +3,7 @@ package MK.HTTPServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.StandardSocketOptions;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.ServerSocketChannel;
@@ -54,10 +55,22 @@ public class HTTPServerOperations implements SelectionKeyOperations
             int received_length = client.read(buffer); 
 
             String data = new String(buffer.array());
+            
+            logger.printf(PrintLevel.DEBUG, "Received length %d bytes from %s\n", received_length , socketAddress);
+            System.out.println("DATA SO FAR: " + received_length);
+
+//            if(received_length == -1)
+//            {
+//                //client.close(); //The error still occurs but at this stage I believe it is 
+//                                  //occuring as the browser closes the connection
+//                return;
+//            }
+
             data = data.substring(0, received_length);
 
             logger.printf(PrintLevel.TRACE, "Received length %d bytes from %s\n", received_length , socketAddress);
             logger.printf(PrintLevel.TRACE,"Received message: '%s'\n", data);
+
 
             if(request_builder.containsKey(socketAddress))
                 request_builder.get(socketAddress).append(data);
@@ -69,19 +82,15 @@ public class HTTPServerOperations implements SelectionKeyOperations
                 logger.printf(PrintLevel.TRACE, "Final Message: '%s'\n", request_builder.get(socketAddress));
                 HTTPRequest request = new HTTPRequest(request_builder.get(socketAddress).toString());
                 
-
                 //bool honourKeepAlive ? //TODO
 
                 HTTPHandlerContext context = new HTTPHandlerContext()
                     .addSender(client)
                     .addHTTPRequest(request)
                     .addStaticRoot(static_root)
-                    .addResponder(new Responder(client, false));
-
+                    .addResponder(new Responder(client, true));
 
                 pipeline.processRequest(context);
-
-                //client.close();
                 request_builder.remove(socketAddress);
             }
         }

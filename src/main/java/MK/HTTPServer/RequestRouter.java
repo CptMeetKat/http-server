@@ -75,16 +75,16 @@ public class RequestRouter extends BaseHTTPHandler
         Route route = findMatchingRoute(resolvedPath, context.getStaticRoot());
         if(route != null)
         {
-            System.out.println("Handling dynamic request");
-            try
-            {
-                connection_manager.registerClientSocket(route.getIP(), route.getPort(), new ApplicationServerOperations(context.getHTTPRequest(), context.getSender()));
-            }
-            catch(IOException e)
-            {
-                System.out.println("WARNING! : Unable to connect the 3rd party service");
-                returnServiceUnavailable(context);
-            }
+            //System.out.println("Handling dynamic request");
+            //try
+            //{
+            //    connection_manager.registerClientSocket(route.getIP(), route.getPort(), new ApplicationServerOperations(context.getHTTPRequest(), context.getResponder()));//Maybe this should just recv context
+            //}
+            //catch(IOException e)
+            //{
+            //    System.out.println("WARNING! : Unable to connect the 3rd party service");
+            //    returnServiceUnavailable(context);
+            //}
         }
         else
         {

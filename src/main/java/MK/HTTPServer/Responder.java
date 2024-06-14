@@ -27,12 +27,12 @@ public class Responder implements Sendable
     }
 
 	@Override
-	public void send(HTTPResponse response) {
+	public void send(ByteBuffer response) {
 
         try
         {
-            respondTo.write(ByteBuffer.wrap(response.serialize())); //This exception should be thrown?
-
+            respondTo.write(response); //This should perhaps be thrown
+            
             if(!keepAlive)
                 respondTo.close();  //this can be caught
         }
@@ -40,8 +40,6 @@ public class Responder implements Sendable
         {
             System.err.println(e);
         }
-
-
 	}
 }
 
