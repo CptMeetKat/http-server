@@ -40,8 +40,8 @@ public class ApplicationServerOperations implements SelectionKeyOperations
             {
                 String fulldata = request_builder.get(socketAddress).toString();
                 System.out.println("FULL DATA: " + fulldata);
-                sender.write(   ByteBuffer.wrap(fulldata.getBytes())    );
                 client.close();
+                sender.write(   ByteBuffer.wrap(fulldata.getBytes())    );
                 sender.close(); //this work here, not sure if correct here
             }
             else
