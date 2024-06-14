@@ -7,6 +7,7 @@ public class HTTPHandlerContext
     SocketChannel sender;
     HTTPRequest request;
     String static_root;
+    Sendable responder;
 
     public HTTPHandlerContext (){}
 
@@ -43,4 +44,16 @@ public class HTTPHandlerContext
     {
         return request;
     }
+
+    public Sendable getResponder()
+    {
+        return responder;
+    }
+
+	public HTTPHandlerContext addResponder(Responder responder) {
+        this.responder = responder;
+        return this;
+	}
+
+
 }

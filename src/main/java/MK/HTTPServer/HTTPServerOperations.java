@@ -70,10 +70,13 @@ public class HTTPServerOperations implements SelectionKeyOperations
                 HTTPRequest request = new HTTPRequest(request_builder.get(socketAddress).toString());
                 
 
+                //bool honourKeepAlive ? //TODO
+
                 HTTPHandlerContext context = new HTTPHandlerContext()
                     .addSender(client)
                     .addHTTPRequest(request)
-                    .addStaticRoot(static_root);
+                    .addStaticRoot(static_root)
+                    .addResponder(new Responder(client, false));
 
 
                 pipeline.processRequest(context);
