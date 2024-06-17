@@ -81,13 +81,17 @@ public class HTTPServerOperations implements SelectionKeyOperations
                 logger.printf(PrintLevel.TRACE, "Final Message: '%s'\n", request_builder.get(socketAddress));
                 HTTPRequest request = new HTTPRequest(request_builder.get(socketAddress).toString());
                 
-                //bool honourKeepAlive ? //TODO
+                boolean honourKeepAlive = true;
+
+                boolean keep_alive = false;
+                if(honourKeepAlive && request.getField("Keep-Alive") == "keep-alive") 
+                    keep_alive = true;
 
                 HTTPHandlerContext context = new HTTPHandlerContext()
                     .addSender(client)
                     .addHTTPRequest(request)
                     .addStaticRoot(static_root)
-                    .addResponder(new Responder(client, true));
+                    .addResponder(new Responder(client, keep_alive));
 
                 pipeline.processRequest(context);
                 request_builder.remove(socketAddress);
