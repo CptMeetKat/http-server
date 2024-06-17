@@ -90,7 +90,7 @@ public class HTTPResponse
         return header_builder.toString().trim();
     }
 
-    public void addKeepAlive() //TODO: This should be added when needed and honoured
+    public void addKeepAlive() 
     {
         headers.put("Connection", "keep-alive");
         headers.put("Keep-Alive", "max=100");
@@ -98,7 +98,7 @@ public class HTTPResponse
 
     public byte[] serialize()
     {
-        addKeepAlive();
+        addKeepAlive(); //TODO: This should be added when needed and honoured not all the time
         StringBuilder response = new StringBuilder();
         response.append(version + " " + status_code + " " + reason_phrase + "\r\n");
         response.append(getHeaders());
