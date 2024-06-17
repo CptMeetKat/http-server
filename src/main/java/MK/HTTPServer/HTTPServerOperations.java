@@ -58,12 +58,12 @@ public class HTTPServerOperations implements SelectionKeyOperations
             logger.printf(PrintLevel.DEBUG, "Received length %d bytes from %s\n", received_length , socketAddress);
             System.out.println("DATA SO FAR: " + received_length);
 
-//            if(received_length == -1)
-//            {
-//                //client.close(); //The error still occurs but at this stage I believe it is 
-//                                  //occuring as the browser closes the connection
-//                return;
-//            }
+            if(received_length == -1) //Don't process anything if end of stream i.e. timeout or close
+            {
+                key.cancel();
+                System.out.println("____--___CANCELLING KEY");
+                return;
+            }
 
             data = data.substring(0, received_length);
 
