@@ -81,8 +81,8 @@ public class HTTPServerOperations implements SelectionKeyOperations
                 logger.printf(PrintLevel.TRACE, "Final Message: '%s'\n", request_builder.get(socketAddress));
                 HTTPRequest request = new HTTPRequest(request_builder.get(socketAddress).toString());
                 
-                boolean honourKeepAlive = true;
-
+                boolean honourKeepAlive = true; //TODO: Add as config
+                
                 boolean keep_alive = false;
                 if(honourKeepAlive && request.getField("Keep-Alive") == "keep-alive") 
                     keep_alive = true;
