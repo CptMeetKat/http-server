@@ -12,8 +12,8 @@ public class ApplicationServerOperations implements SelectionKeyOperations
 
     private HashMap<String, StringBuilder> request_builder = new HashMap<>();
     HTTPRequest httpRequest;
-    SocketChannel sender;
-	public ApplicationServerOperations(HTTPRequest httpRequest, SocketChannel sender) {
+    Sendable sender;
+	public ApplicationServerOperations(HTTPRequest httpRequest, Sendable sender) {
 		this.httpRequest = httpRequest;
         this.sender = sender;
 	}
@@ -28,6 +28,7 @@ public class ApplicationServerOperations implements SelectionKeyOperations
 	public void read(SelectionKey key) {
         try
         {
+
             int buffer_length = 10;
             SocketChannel client = (SocketChannel)key.channel(); 
             String socketAddress = client.getRemoteAddress().toString();
@@ -40,9 +41,8 @@ public class ApplicationServerOperations implements SelectionKeyOperations
             {
                 String fulldata = request_builder.get(socketAddress).toString();
                 System.out.println("FULL DATA: " + fulldata);
-                sender.write(   ByteBuffer.wrap(fulldata.getBytes())    );
                 client.close();
-                sender.close(); //this work here, not sure if correct here
+                sender.send(   ByteBuffer.wrap(fulldata.getBytes())    );
             }
             else
             {

@@ -59,8 +59,6 @@ public class RequestRouter extends BaseHTTPHandler
         {
             System.out.println("Unable to contact sender");
         }
-
-        //How do we close the HTTP Server
     }
 
     public void processRequest(HTTPHandlerContext context)
@@ -78,7 +76,7 @@ public class RequestRouter extends BaseHTTPHandler
             System.out.println("Handling dynamic request");
             try
             {
-                connection_manager.registerClientSocket(route.getIP(), route.getPort(), new ApplicationServerOperations(context.getHTTPRequest(), context.getSender()));
+                connection_manager.registerClientSocket(route.getIP(), route.getPort(), new ApplicationServerOperations(context.getHTTPRequest(), context.getResponder()));//Maybe this should just recv context
             }
             catch(IOException e)
             {

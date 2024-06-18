@@ -1,6 +1,7 @@
 package MK.HTTPServer;
 
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 
 public class HTTPResponse
 {
@@ -8,8 +9,8 @@ public class HTTPResponse
     String status_code;
     String reason_phrase;
     String body;
-    String content_type;
-    String content_length;
+
+    HashMap<String, String> headers = new HashMap<String, String>();
 
     public HTTPResponse()
     {
@@ -66,21 +67,41 @@ public class HTTPResponse
 
     public void setContentType(String content_type)
     {
-        this.content_type = content_type;
+        headers.put("Content-Type", content_type);
     }
 
     public void setBody(String body)
     {
         this.body = body;
-        this.content_length = String.valueOf(body.length());
+        headers.put("Content-Length", String.valueOf(body.length()));
+    }
+
+    private String getHeaders()
+    {
+        StringBuilder header_builder = new StringBuilder();
+        for(String field : headers.keySet())
+        {
+            header_builder.append(field);
+            header_builder.append(":");
+            header_builder.append(headers.get(field));
+            header_builder.append("\r\n");
+        }
+
+        return header_builder.toString().trim();
+    }
+
+    public void addKeepAlive() 
+    {
+        headers.put("Connection", "keep-alive");
+        headers.put("Keep-Alive", "max=100");
     }
 
     public byte[] serialize()
     {
+        addKeepAlive(); //TODO: This should be added when needed and honoured not all the time
         StringBuilder response = new StringBuilder();
         response.append(version + " " + status_code + " " + reason_phrase + "\r\n");
-        response.append("Content-Type: " + content_type + "\r\n");
-        response.append("Content-Length: " + content_length);
+        response.append(getHeaders());
         response.append("\r\n\r\n");
         response.append(body);
 

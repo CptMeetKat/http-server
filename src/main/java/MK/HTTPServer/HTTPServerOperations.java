@@ -54,10 +54,19 @@ public class HTTPServerOperations implements SelectionKeyOperations
             int received_length = client.read(buffer); 
 
             String data = new String(buffer.array());
+            
+            if(received_length == -1) //Don't process anything if end of stream i.e. timeout or close
+            {
+                key.cancel();
+                logger.print("End of stream: cancelling key");
+                return;
+            }
+
             data = data.substring(0, received_length);
 
             logger.printf(PrintLevel.TRACE, "Received length %d bytes from %s\n", received_length , socketAddress);
             logger.printf(PrintLevel.TRACE,"Received message: '%s'\n", data);
+
 
             if(request_builder.containsKey(socketAddress))
                 request_builder.get(socketAddress).append(data);
@@ -69,16 +78,19 @@ public class HTTPServerOperations implements SelectionKeyOperations
                 logger.printf(PrintLevel.TRACE, "Final Message: '%s'\n", request_builder.get(socketAddress));
                 HTTPRequest request = new HTTPRequest(request_builder.get(socketAddress).toString());
                 
+                boolean honourKeepAlive = true; //TODO: Add as config
+                
+                boolean keep_alive = false;
+                if(honourKeepAlive && request.getField("Keep-Alive") == "keep-alive") 
+                    keep_alive = true;
 
                 HTTPHandlerContext context = new HTTPHandlerContext()
                     .addSender(client)
                     .addHTTPRequest(request)
-                    .addStaticRoot(static_root);
-
+                    .addStaticRoot(static_root)
+                    .addResponder(new Responder(client, keep_alive));
 
                 pipeline.processRequest(context);
-
-                //client.close();
                 request_builder.remove(socketAddress);
             }
         }
