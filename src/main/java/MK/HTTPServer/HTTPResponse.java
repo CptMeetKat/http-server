@@ -9,8 +9,6 @@ public class HTTPResponse
     String status_code;
     String reason_phrase;
     String body;
-    //String content_type;
-    //String content_length;
 
     HashMap<String, String> headers = new HashMap<String, String>();
 
@@ -76,7 +74,6 @@ public class HTTPResponse
     {
         this.body = body;
         headers.put("Content-Length", String.valueOf(body.length()));
-//        this.content_length = String.valueOf(body.length());
     }
 
     private String getHeaders()
