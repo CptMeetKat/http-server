@@ -1,0 +1,2 @@
+docker build -t java-http-server .
+docker run -p 2024:2024 java-http-server
