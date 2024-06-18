@@ -1,5 +1,5 @@
 # Java HTTP Server
-An example HTTP Server to deliver static and dynamic web content to browers.
+An example HTTP Server to deliver static and dynamic web content to browers asynchronously.
 
 ## Features
 - Request Forwarding / Routing
