@@ -102,13 +102,8 @@ public class HTTPResponse
         StringBuilder response = new StringBuilder();
         response.append(version + " " + status_code + " " + reason_phrase + "\r\n");
         response.append(getHeaders());
-        //response.append("Content-Type: " + content_type + "\r\n");
-        //response.append("Content-Length: " + content_length + "\r\n");
-        //response.append("Connection: keep-alive\r\n"); 
-        //response.append("Keep-Alive: max=100");
         response.append("\r\n\r\n");
         response.append(body);
-        //NOTE: Until this is improved, NEVER forget to include \r\n when append extra header rows
 
         byte[] response_bytes = response.toString().getBytes(StandardCharsets.UTF_8);
         return response_bytes;
