@@ -55,13 +55,10 @@ public class HTTPServerOperations implements SelectionKeyOperations
 
             String data = new String(buffer.array());
             
-            logger.printf(PrintLevel.DEBUG, "Received length %d bytes from %s\n", received_length , socketAddress);
-            System.out.println("DATA SO FAR: " + received_length);
-
             if(received_length == -1) //Don't process anything if end of stream i.e. timeout or close
             {
                 key.cancel();
-                System.out.println("____--___CANCELLING KEY");
+                logger.print("End of stream: cancelling key");
                 return;
             }
 
