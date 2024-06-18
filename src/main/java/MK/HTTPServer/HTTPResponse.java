@@ -81,7 +81,10 @@ public class HTTPResponse
         StringBuilder header_builder = new StringBuilder();
         for(String field : headers.keySet())
         {
-            header_builder.append( field + ":" + headers.get(field) + "\r\n"); //may ruin the purpose of a string builder
+            header_builder.append(field);
+            header_builder.append(":");
+            header_builder.append(headers.get(field));
+            header_builder.append("\r\n");
         }
 
         return header_builder.toString().trim();
