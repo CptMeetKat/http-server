@@ -59,8 +59,6 @@ public class RequestRouter extends BaseHTTPHandler
         {
             System.out.println("Unable to contact sender");
         }
-
-        //How do we close the HTTP Server
     }
 
     public void processRequest(HTTPHandlerContext context)
