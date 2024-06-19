@@ -10,8 +10,45 @@
   <url>http://maven.apache.org</url>
 
 
+<profiles>
+    <profile>
+        <id>fast-tests</id>
+        <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+        <build>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.19</version>
+                    <configuration>
+                            <!-- <groups>MK.HTTPServer.FastTests</groups> -->
+                          <excludedGroups>MK.HTTPServer.AcceptanceTests.SlowTests</excludedGroups>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </build>
+    </profile>
+
+
+    <profile>
+        <id>slow-tests</id>
+        <build>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.19</version>
+                    <configuration>
+                        <groups>MK.HTTPServer.AcceptanceTests.SlowTests</groups>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </build>
+    </profile>
+</profiles>
+
+
   <properties>
-        <!--        <maven.compiler.release>18</maven.compiler.release> -->
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
   </properties>
@@ -20,7 +57,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>4.8</version>
             <scope>test</scope>
         </dependency>
   </dependencies>
