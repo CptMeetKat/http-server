@@ -25,6 +25,11 @@ public class HTTPServer
         }
     }
 
+    public void stop()
+    {
+        multiplexer.stop();
+    }
+
     public void start()
     {
         try { 

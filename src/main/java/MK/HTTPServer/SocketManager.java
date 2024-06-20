@@ -17,6 +17,8 @@ public class SocketManager
     private static SocketManager manager = null;
     private Selector selector = null; 
     private Logger logger;
+    private boolean isRunning;
+
     public static SocketManager getSocketManager()
         throws IOException
     {
@@ -31,6 +33,7 @@ public class SocketManager
     private SocketManager()
         throws IOException
     {
+        isRunning = true;
         this.logger = Logger.getLogger();
         selector = Selector.open(); 
     }
@@ -63,10 +66,15 @@ public class SocketManager
             clientChannel.register(selector, ops, callbacks); 
     }
 
+    public void stop()
+    {
+        isRunning = false;
+    }
+
     public void run()
         throws IOException
     {
-        while (true) {
+        while (isRunning) {
             selector.select(); //Blocking
             Set<SelectionKey> selectedKeys = selector.selectedKeys();
             Iterator<SelectionKey> i = selectedKeys.iterator(); 
