@@ -30,6 +30,9 @@ public class Static_HTTPRequest_Test{
     @BeforeClass
     public static void startService() {
         service = new App();
+        service.loadDefault();
+        
+
         executorService = Executors.newSingleThreadExecutor();
         executorService.submit(() -> service.start());
 
@@ -61,7 +64,7 @@ public class Static_HTTPRequest_Test{
         try
         {
             SocketManager manager = SocketManager.getSocketManager();
-            manager.registerClientSocket("localhost", 2024, //TODO: Don't hardcode port
+            manager.registerClientSocket("localhost", service.inbound_port,
                                         new ClientSocketOperations(httpRequest, browser));
             try
             {
@@ -93,7 +96,7 @@ public class Static_HTTPRequest_Test{
         try
         {
             SocketManager manager = SocketManager.getSocketManager();
-            manager.registerClientSocket("localhost", 2024, //TODO: Don't hardcode port
+            manager.registerClientSocket("localhost", service.inbound_port, 
                                         new ClientSocketOperations(httpRequest, browser));
             try 
             {
