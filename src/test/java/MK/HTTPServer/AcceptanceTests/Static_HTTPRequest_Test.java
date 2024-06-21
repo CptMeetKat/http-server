@@ -115,14 +115,5 @@ public class Static_HTTPRequest_Test{
         HTTPResponse response = new HTTPResponse(result);
         assertTrue(response.getStatusCode().equals("404")); 
     }
-
-   //@Test
-   //public void doTestForDev(){}
-
-   //@Test
-   //public void doTestForDev(){}
-   
-   //@Test
-   //public void doTestForDev(){}
 }
 
