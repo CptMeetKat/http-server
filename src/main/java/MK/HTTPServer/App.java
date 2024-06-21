@@ -6,32 +6,49 @@ import MK.HTTPServer.Logger.PrintLevel;
 
 public class App 
 {
-    Logger logger;
+    private static Logger logger = Logger.getLogger();
     HTTPServer server;
+   
+    public int log_level;
+    public int inbound_port;
+    public int buffer_size;
+    public String static_root;
+    ArrayList<Route> routes;
+
+
     public static void main(String[] args) 
     {
         App app = new App();
+        app.loadConfig();
         app.start();
     }
 
-    public App()
+    public App() { }
+
+    public void loadDefault()
+    {
+        inbound_port = 8080;
+        buffer_size = 256;
+        static_root = System.getProperty("user.dir") + "/static/";
+        routes = new ArrayList<Route>();
+    }
+
+    public void loadConfig()
     {
         ConfigManager manager = new ConfigManager("./server.config");
-        int log_level = manager.getInt("log_level");
-        int inbound_port = manager.getInt("port");
-        int buffer_size = manager.getInt("buffer_size");
-        String static_root = manager.getField("static_root");
-        
-        logger = Logger.getLogger();
+        log_level = manager.getInt("log_level");
+        inbound_port = manager.getInt("port");
+        buffer_size = manager.getInt("buffer_size");
+        static_root = manager.getField("static_root");
+       
         Logger.setLogger(PrintLevel.fromInt(log_level));
-        ArrayList<Route> routes = createRoutes(manager);
-
+        routes = createRoutes(manager);
         printConfig(manager);
-        server = new HTTPServer(inbound_port, buffer_size, static_root, routes);
     }
 
     public void start()
     {
+        server = new HTTPServer(inbound_port, buffer_size, static_root, routes);
         server.start();
     }
 
@@ -54,7 +71,7 @@ public class App
         return routes;
     }
 
-    private void printConfig(ConfigManager manager)
+    private void printConfig(ConfigManager manager) 
     {
         logger.printf(PrintLevel.INFO,"%s\n%s\n%s\n",
                     "***Loaded Config***",
