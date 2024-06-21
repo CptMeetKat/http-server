@@ -17,6 +17,35 @@ public class HTTPResponse
         reason_phrase = "";
     }
 
+    public HTTPResponse(String response)
+    {
+        parseResponse(response);
+    }
+
+    public void parseResponse(String response)
+    {
+        String[] lines = response.split("\n"); 
+        String[] statusline = lines[0].split(" ");
+
+        version = statusline[0];
+        status_code = statusline[1];
+        reason_phrase = statusline[2];
+
+        for(int i = 1; i < lines.length; i++)
+        {
+            String[] pair = lines[i].split(":");
+            headers.put(pair[0], pair[1]);
+        }
+
+//HTTP/1.1 200 OK
+//Keep-Alive:max=100
+//Connection:keep-alive
+//Content-Length:91
+//Content-Type:text/html
+
+
+    }
+
     public static HTTPResponse createOKResponse()
     {
         HTTPResponse response = new HTTPResponse();
@@ -76,7 +105,7 @@ public class HTTPResponse
         headers.put("Content-Length", String.valueOf(body.length()));
     }
 
-    private String getHeaders()
+    private String getHeaders() //TODO: Name change
     {
         StringBuilder header_builder = new StringBuilder();
         for(String field : headers.keySet())
