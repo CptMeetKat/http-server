@@ -63,13 +63,12 @@ public class Static_HTTPRequest_Test{
             SocketManager manager = SocketManager.getSocketManager();
             manager.registerClientSocket("localhost", 2024, //TODO: Don't hardcode port
                                         new ClientSocketOperations(httpRequest, browser));
-            try {
+            try
+            {
                 while(browser.isComplete())
                     throw new InterruptedException();
                 Thread.sleep(100);
-            } catch (InterruptedException e) {
-                System.out.println("_______Thread was interrupted!");
-            }
+            } catch (InterruptedException e) {}
         }
         catch(IOException e)
         {
@@ -96,13 +95,12 @@ public class Static_HTTPRequest_Test{
             SocketManager manager = SocketManager.getSocketManager();
             manager.registerClientSocket("localhost", 2024, //TODO: Don't hardcode port
                                         new ClientSocketOperations(httpRequest, browser));
-            try {
+            try 
+            {
                 while(browser.isComplete())
                     throw new InterruptedException();
                 Thread.sleep(100);
-            } catch (InterruptedException e) {
-                System.out.println("_______Thread was interrupted!");
-            }
+            } catch (InterruptedException e) {}
         }
         catch(IOException e)
         {
