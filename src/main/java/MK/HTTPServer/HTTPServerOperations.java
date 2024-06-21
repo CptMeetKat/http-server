@@ -17,11 +17,10 @@ public class HTTPServerOperations implements SelectionKeyOperations
     private BaseHTTPHandler pipeline;
     private int buffer_length = 256; //This is also managed through config
     private HashMap<String, StringBuilder> request_builder = new HashMap<>();
-    private Logger logger;
+    private static Logger logger = Logger.getLogger();
 
     public HTTPServerOperations(String static_root, BaseHTTPHandler pipeline, int buffer_length)
     {
-        this.logger = Logger.getLogger();
         this.static_root = static_root;
         this.pipeline = pipeline;
         this.buffer_length = buffer_length;
