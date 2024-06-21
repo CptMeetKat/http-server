@@ -7,6 +7,7 @@ import org.junit.experimental.categories.Category;
 import MK.HTTPServer.App;
 import MK.HTTPServer.ClientSocketOperations;
 import MK.HTTPServer.HTTPRequest;
+import MK.HTTPServer.HTTPResponse;
 
 import static org.junit.Assert.*;
 import MK.HTTPServer.SocketManager;
@@ -62,7 +63,7 @@ public class Basic_Test{
         try
         {
             SocketManager manager = SocketManager.getSocketManager();
-            manager.registerClientSocket("localhost", 2024,
+            manager.registerClientSocket("localhost", 2024, //TODO: Don't hardcode port
                                         new ClientSocketOperations(httpRequest, browser));
             try {
                 while(browser.isComplete())
@@ -75,12 +76,12 @@ public class Basic_Test{
         catch(IOException e)
         {
             fail("Unable to obtain socket");
+            return;
         }
         
-        //HTTPResponse response = new HTTPResponse(browser.getResult());
-        ////TODO: Make HTTP response parse a HTTP response
         String result = browser.getResult();
-        assertTrue(result.contains("OK")); //TODO: Imperfect test
+        HTTPResponse response = new HTTPResponse(result);
+        assertTrue(response.getStatusCode().equals("200"));
     }
 
 
@@ -95,7 +96,7 @@ public class Basic_Test{
         try
         {
             SocketManager manager = SocketManager.getSocketManager();
-            manager.registerClientSocket("localhost", 2024,
+            manager.registerClientSocket("localhost", 2024, //TODO: Don't hardcode port
                                         new ClientSocketOperations(httpRequest, browser));
             try {
                 while(browser.isComplete())
@@ -108,12 +109,12 @@ public class Basic_Test{
         catch(IOException e)
         {
             fail("Unable to obtain socket");
+            return;
         }
         
-        //HTTPResponse response = new HTTPResponse(browser.getResult());
-        ////TODO: Make HTTP response parse a HTTP response
         String result = browser.getResult();
-        assertTrue(result.contains("404")); //TODO: Not perfect test
+        HTTPResponse response = new HTTPResponse(result);
+        assertTrue(response.getStatusCode().equals("404")); 
     }
 
    //@Test

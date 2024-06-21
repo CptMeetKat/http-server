@@ -24,7 +24,7 @@ public class HTTPResponse
 
     public void parseResponse(String response)
     {
-        String[] lines = response.split("\n"); 
+        String[] lines = response.split("\r\n"); 
         String[] statusline = lines[0].split(" ");
 
         version = statusline[0];
@@ -33,18 +33,21 @@ public class HTTPResponse
 
         for(int i = 1; i < lines.length; i++)
         {
+            if(lines[i].trim() == "")
+                break;
             String[] pair = lines[i].split(":");
             headers.put(pair[0], pair[1]);
         }
 
-//HTTP/1.1 200 OK
-//Keep-Alive:max=100
-//Connection:keep-alive
-//Content-Length:91
-//Content-Type:text/html
-
-
+       //body = ""; //TODO: parse body
+       ////TODO: Test code for this
     }
+
+    public String getStatusCode()
+    {
+        return status_code;
+    }
+
 
     public static HTTPResponse createOKResponse()
     {
