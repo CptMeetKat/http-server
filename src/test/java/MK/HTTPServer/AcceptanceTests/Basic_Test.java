@@ -65,7 +65,7 @@ public class Basic_Test{
             manager.registerClientSocket("localhost", 2024,
                                         new ClientSocketOperations(httpRequest, browser));
             try {
-                if(browser.isComplete())
+                while(browser.isComplete())
                     throw new InterruptedException();
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -98,7 +98,7 @@ public class Basic_Test{
             manager.registerClientSocket("localhost", 2024,
                                         new ClientSocketOperations(httpRequest, browser));
             try {
-                if(browser.isComplete())
+                while(browser.isComplete())
                     throw new InterruptedException();
                 Thread.sleep(100);
             } catch (InterruptedException e) {
