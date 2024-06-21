@@ -23,7 +23,8 @@ public class Logger
 
     public static void setLogger(PrintLevel level)
     {
-        logger = new Logger(level);
+        logger = getLogger();
+        logger.minimum_level = level;
     }
 
 
