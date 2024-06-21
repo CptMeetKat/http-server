@@ -29,7 +29,7 @@ public class ApplicationServerOperations implements SelectionKeyOperations
         try
         {
 
-            int buffer_length = 10;
+            int buffer_length = 10; //TODO: Make this bigger and dynamic
             SocketChannel client = (SocketChannel)key.channel(); 
             String socketAddress = client.getRemoteAddress().toString();
 
@@ -37,7 +37,7 @@ public class ApplicationServerOperations implements SelectionKeyOperations
             int received_length = client.read(buffer); 
 
             System.out.println("LEN: " + received_length);
-            if(received_length == -1)
+            if(received_length == -1) //TODO: What if 0 (i.e. connection left open, and no bits to recv)
             {
                 String fulldata = request_builder.get(socketAddress).toString();
                 System.out.println("FULL DATA: " + fulldata);
