@@ -17,6 +17,10 @@ public class ConfigManager
         importConfig(config_path);
     }
 
+    public ConfigManager()
+    {
+    }
+
     private boolean inExclusionList(String target)
     {
         final String exclusions[] = new String[]{"***forward_endpoints***"};
@@ -30,7 +34,7 @@ public class ConfigManager
         return false;
     }
 
-    private void addConfig(String key, String value)
+    public void addConfig(String key, String value)
     {
         config.put(key,value);
         field_order.add(key);
