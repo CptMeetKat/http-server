@@ -21,9 +21,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 
-
 @Category(SlowTests.class)
-public class Basic_Test{
+public class Static_HTTPRequest_Test{
 
     private static App service;
     private static ExecutorService executorService;
@@ -34,9 +33,8 @@ public class Basic_Test{
         executorService = Executors.newSingleThreadExecutor();
         executorService.submit(() -> service.start());
 
-        // Wait for the service to start
         try {
-            Thread.sleep(2000); // Wait for 2 seconds to ensure service starts
+            Thread.sleep(2000); // Wait for the service to start
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
