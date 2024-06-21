@@ -30,7 +30,7 @@ public class ClientSocketOperations implements SelectionKeyOperations //Client O
 	public void read(SelectionKey key) {
         try
         {
-            int buffer_length = 10; //TODO: Make this bigger and dynamic
+            int buffer_length = 256; //TODO: Make this bigger and dynamic
             SocketChannel client = (SocketChannel)key.channel(); 
             String socketAddress = client.getRemoteAddress().toString();
 
