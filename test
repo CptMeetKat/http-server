@@ -1,0 +1,2 @@
+#mvn test -Pslow-tests
+#mvn test

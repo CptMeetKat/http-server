@@ -7,9 +7,11 @@ import MK.HTTPServer.Logger.PrintLevel;
 public class App 
 {
     Logger logger;
+    HTTPServer server;
     public static void main(String[] args) 
     {
-        new App();
+        App app = new App();
+        app.start();
     }
 
     public App()
@@ -24,14 +26,21 @@ public class App
         Logger.setLogger(PrintLevel.fromInt(log_level));
         ArrayList<Route> routes = createRoutes(manager);
 
-
-
         printConfig(manager);
-        HTTPServer server = new HTTPServer(inbound_port, buffer_size, static_root, routes);
+        server = new HTTPServer(inbound_port, buffer_size, static_root, routes);
+    }
+
+    public void start()
+    {
         server.start();
     }
 
-    private ArrayList<Route> createRoutes(ConfigManager manager)
+    public void stop()
+    {
+        server.stop();
+    }
+
+    private static ArrayList<Route> createRoutes(ConfigManager manager)
     {
         ArrayList<Route> routes = new ArrayList<Route>();
 

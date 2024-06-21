@@ -7,15 +7,17 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 import java.util.HashMap;
 
-public class ApplicationServerOperations implements SelectionKeyOperations
+public class ClientSocketOperations implements SelectionKeyOperations //Client Operations
 {
-
     private HashMap<String, StringBuilder> request_builder = new HashMap<>();
-    HTTPRequest httpRequest;
-    Sendable sender;
-	public ApplicationServerOperations(HTTPRequest httpRequest, Sendable sender) {
+    public HTTPRequest httpRequest;
+    //public Sendable sender;
+    private ClientPostOperations postOperations;
+
+	public ClientSocketOperations(HTTPRequest httpRequest/*, Sendable sender*/, ClientPostOperations postOperations) {
 		this.httpRequest = httpRequest;
-        this.sender = sender;
+        //this.sender = sender; This interface is essentially to be replaced by onReadComplete
+        this.postOperations = postOperations;
 	}
 
 	@Override
@@ -28,7 +30,6 @@ public class ApplicationServerOperations implements SelectionKeyOperations
 	public void read(SelectionKey key) {
         try
         {
-
             int buffer_length = 10; //TODO: Make this bigger and dynamic
             SocketChannel client = (SocketChannel)key.channel(); 
             String socketAddress = client.getRemoteAddress().toString();
@@ -42,7 +43,7 @@ public class ApplicationServerOperations implements SelectionKeyOperations
                 String fulldata = request_builder.get(socketAddress).toString();
                 System.out.println("FULL DATA: " + fulldata);
                 client.close();
-                sender.send(   ByteBuffer.wrap(fulldata.getBytes())    );
+                postOperations.onReadComplete(this, fulldata);
             }
             else
             {
@@ -58,6 +59,13 @@ public class ApplicationServerOperations implements SelectionKeyOperations
             System.out.println(e);
         }
 	}
+
+    //abstract void onReadComplete(String data);
+
+    //protected void onReadComplete(String data)
+    //{
+    //    sender.send(   ByteBuffer.wrap(data.getBytes())    );
+    //}
 
 	@Override
 	public void connect(SelectionKey key) {
