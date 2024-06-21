@@ -10,8 +10,6 @@ import static org.junit.Assert.*;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -33,7 +31,7 @@ public class Basic_Test{
         // Wait for the service to start
         try {
             Thread.sleep(2000); // Wait for 2 seconds to ensure service starts
-            Thread.sleep(200000); // Wait for 2 seconds to ensure service starts
+            //Thread.sleep(200000); // Wait for 2 seconds to ensure service starts
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
@@ -51,13 +49,14 @@ public class Basic_Test{
     }
 
     @Test
-    @Category(value={SlowTests.class})
-    public void testApp() {
+    //@Category(value={SlowTests.class})
+    public void testApp() 
+    {
 
 
         
         assertTrue(true);
-   }
+    }
 
    @Test
    public void doTestForDev(){}
