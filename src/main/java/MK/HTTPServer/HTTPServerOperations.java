@@ -58,6 +58,7 @@ public class HTTPServerOperations implements SelectionKeyOperations
             {
                 key.cancel();
                 logger.print("End of stream: cancelling key");
+                request_builder.remove(socketAddress);
                 return;
             }
 
