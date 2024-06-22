@@ -140,4 +140,7 @@ public class HTTPResponse
         byte[] response_bytes = response.toString().getBytes(StandardCharsets.UTF_8);
         return response_bytes;
     }
+
+
+    //TODO: add toString();
 }
