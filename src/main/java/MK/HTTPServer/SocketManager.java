@@ -29,6 +29,18 @@ public class SocketManager
         return manager;
     }
 
+    public void close()
+    {
+        try {
+            System.out.println("Closing selector...");
+            if(selector != null)
+                selector.close();
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
 
     private SocketManager()
         throws IOException

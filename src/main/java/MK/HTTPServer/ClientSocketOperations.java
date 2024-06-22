@@ -6,14 +6,17 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 
+import MK.HTTPServer.Logger.PrintLevel;
+
 public class ClientSocketOperations implements SelectionKeyOperations //Client Operations
 {
     StringBuilder request_builder = new StringBuilder();
-    public HTTPRequest httpRequest;
+    public ByteBuffer buffer;
     ClientPostOperations postOperations;
+    Logger logger = Logger.getLogger();
 
 	public ClientSocketOperations(HTTPRequest httpRequest, ClientPostOperations postOperations) {
-		this.httpRequest = httpRequest;
+		this.buffer = ByteBuffer.wrap(httpRequest.serialize());
         this.postOperations = postOperations;
 	}
 
@@ -64,7 +67,18 @@ public class ClientSocketOperations implements SelectionKeyOperations //Client O
 
         try
         {
-            channel.write(ByteBuffer.wrap(httpRequest.serialize()));
+            int bytes_written = channel.write(buffer);
+            logger.printf(PrintLevel.INFO, "_Wrote %d bytes to %s\n", bytes_written, channel.getRemoteAddress());
+            if(buffer.remaining() > 0)
+            {
+                //logger.printf(PrintLevel.TRACE, "Message sent:(not accurate)\n%s\n", httpRequest.toString()); //TODO: IMPORTANT! what is sent and what is display may vary
+                logger.printf(PrintLevel.INFO, "still sending buffer\n"); //TODO: IMPORTANT! what is sent and what is display may vary
+            }
+            else
+            {
+                //channel.close();
+                key.interestOps(SelectionKey.OP_READ);
+            }
         }
         catch(IOException e)
         {

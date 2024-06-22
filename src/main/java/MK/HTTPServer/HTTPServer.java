@@ -38,6 +38,10 @@ public class HTTPServer
         catch (IOException e) { 
             System.out.println("An error occurred: " + e.getMessage());
         } 
+        finally
+        {
+            multiplexer.close();
+        }
     }
 }
 
