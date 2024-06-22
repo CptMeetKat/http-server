@@ -13,7 +13,7 @@ public class App
     public int inbound_port;
     public int buffer_size;
     public String static_root;
-    ArrayList<Route> routes;
+    public ArrayList<Route> routes;
 
 
     public static void main(String[] args) 
