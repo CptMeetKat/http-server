@@ -1,8 +1,9 @@
 
 package MK.HTTPServer.AcceptanceTests;
 
+import java.nio.channels.SocketChannel;
+
 import MK.HTTPServer.ClientPostOperations;
-import MK.HTTPServer.ClientSocketOperations;
 
 public class MockWebBrowserOperations implements ClientPostOperations
 {
@@ -10,7 +11,7 @@ public class MockWebBrowserOperations implements ClientPostOperations
     String data;
 
 	@Override
-	public void onReadComplete(ClientSocketOperations operations, String data) {
+	public void onReadComplete(SocketChannel sender, String data) {
         this.data = data;
         complete = true;
 	}

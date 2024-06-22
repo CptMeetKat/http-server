@@ -1,4 +1,4 @@
-
+        
 package MK.HTTPServer;
 
 import java.io.IOException;
@@ -43,7 +43,7 @@ public class ClientSocketOperations implements SelectionKeyOperations //Client O
                 String fulldata = request_builder.get(socketAddress).toString();
                 System.out.println("FULL DATA: " + fulldata);
                 client.close();
-                postOperations.onReadComplete(this, fulldata);
+                postOperations.onReadComplete(client, fulldata);
             }
             else
             {
