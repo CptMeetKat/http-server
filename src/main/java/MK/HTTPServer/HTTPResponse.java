@@ -108,6 +108,11 @@ public class HTTPResponse
         headers.put("Content-Length", String.valueOf(body.length()));
     }
 
+    public String getBody()
+    {
+        return body;
+    }
+
     private String getHeaders() //TODO: Name change
     {
         StringBuilder header_builder = new StringBuilder();
