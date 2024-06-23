@@ -72,25 +72,25 @@ public class Logger
 
         switch (level) {
             case TRACE:
-                System.out.println(CYAN + "[TRACE]: " + String.format(format, args) + RESET);
+                System.out.print(CYAN + "[TRACE]: " + String.format(format, args) + RESET);
                 break;
             case DEBUG:
-                System.out.println(BLUE + "[DEBUG]: " + String.format(format, args) + RESET);
+                System.out.print(BLUE + "[DEBUG]: " + String.format(format, args) + RESET);
                 break;
             case INFO:
-                System.out.println("[INFO]: " + String.format(format, args));
+                System.out.print("[INFO]: " + String.format(format, args));
                 break;
             case WARNING:
-                System.out.println(YELLOW + "[WARNING]: " + String.format(format, args) + RESET);
+                System.out.print(YELLOW + "[WARNING]: " + String.format(format, args) + RESET);
                 break;
             case ERROR:
-                System.err.println(RED + "[ERROR]: " + String.format(format,args) +  RESET);  
+                System.err.print(RED + "[ERROR]: " + String.format(format,args) +  RESET);  
                 break;
             case CRITICAL:
-                System.err.println(MAGENTA + "[CRITICAL]: " + String.format(format, args) + RESET);
+                System.err.print(MAGENTA + "[CRITICAL]: " + String.format(format, args) + RESET);
                 break;
             default:
-                System.out.println("[UNKNOWN]: " + String.format(format,args));
+                System.out.print("[UNKNOWN]: " + String.format(format,args));
         }
     }
 
