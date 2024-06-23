@@ -60,7 +60,7 @@ public class RequestRouter extends BaseHTTPHandler
         }
         catch(IOException e2)
         {
-            System.out.println("Unable to contact sender");
+            logger.printf(PrintLevel.WARNING, "Unable to return HTTP 503 to sender\n");
         }
     }
 
