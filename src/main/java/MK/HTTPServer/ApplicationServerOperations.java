@@ -14,10 +14,12 @@ public class ApplicationServerOperations implements SelectionKeyOperations
     Logger logger = Logger.getLogger();
     private HashMap<String, StringBuilder> request_builder = new HashMap<>();
     HTTPRequest httpRequest;
+    ByteBuffer buffer;
     Sendable sender;
 	public ApplicationServerOperations(HTTPRequest httpRequest, Sendable sender) {
 		this.httpRequest = httpRequest;
         this.sender = sender;
+        buffer = ByteBuffer.wrap(httpRequest.serialize());
 	}
 
 	@Override
@@ -75,9 +77,12 @@ public class ApplicationServerOperations implements SelectionKeyOperations
 
         try
         {
-            int bytes_written = channel.write(ByteBuffer.wrap(httpRequest.serialize()));
-            logger.printf(PrintLevel.INFO, "Wrote %d bytes to %s\n", bytes_written, channel.getLocalAddress());
-            logger.printf(PrintLevel.TRACE, "Message sent:(not accurate)\n%s\n", httpRequest.toString()); //TODO: IMPORTANT! what is sent and what is display may vary
+             int bytes_written = channel.write(buffer);
+             logger.printf(PrintLevel.INFO, "_Wrote %d bytes to %s\n", bytes_written, channel.getRemoteAddress());
+             if(buffer.remaining() > 0)
+             {
+                 logger.printf(PrintLevel.TRACE, "Message sent:(not accurate)\n%s\n", httpRequest.toString()); //TODO: IMPORTANT! what is sent and what is display may vary
+             }
         }
         catch(IOException e)
         {
