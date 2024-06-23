@@ -31,7 +31,8 @@ public class HTTPServerOperations implements SelectionKeyOperations
         try
         {
             ServerSocketChannel server = (ServerSocketChannel) key.channel();
-            SocketChannel client = server.accept(); 
+            SocketChannel client = server.accept();
+            logger.printf(PrintLevel.TRACE, "Server %s accepted connection from %s\n", server.getLocalAddress(), client.getRemoteAddress());
             client.configureBlocking(false); 
             client.register(key.selector(), SelectionKey.OP_READ, key.attachment()); 
         }
@@ -65,8 +66,6 @@ public class HTTPServerOperations implements SelectionKeyOperations
             data = data.substring(0, received_length);
 
             logger.printf(PrintLevel.TRACE, "Received length %d bytes from %s\n", received_length , socketAddress);
-            logger.printf(PrintLevel.TRACE,"Received message: '%s'\n", data);
-
 
             if(request_builder.containsKey(socketAddress))
                 request_builder.get(socketAddress).append(data);
@@ -75,7 +74,8 @@ public class HTTPServerOperations implements SelectionKeyOperations
 
             if( request_builder.get(socketAddress).toString().endsWith("\r\n\r\n") ) //may change later when body is parsed
             {
-                logger.printf(PrintLevel.TRACE, "Final Message: '%s'\n", request_builder.get(socketAddress));
+                String final_message = request_builder.get(socketAddress).toString();
+                logger.printf(PrintLevel.TRACE, "Server %s assembled %d bytes from %s to form: %s\n", client.getLocalAddress().toString(), final_message.length(), client.getRemoteAddress().toString(), final_message);
                 HTTPRequest request = new HTTPRequest(request_builder.get(socketAddress).toString());
                 
                 boolean honourKeepAlive = true; //TODO: Add as config
