@@ -2,6 +2,9 @@
 package MK.HTTPServer;
 
 import java.nio.channels.SocketChannel;
+
+import MK.HTTPServer.Logger.PrintLevel;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
@@ -9,6 +12,7 @@ public class Responder implements Sendable
 {
     private SocketChannel respondTo; //Could be a ByteChannel?
     private boolean keepAlive = false;
+    Logger logger = Logger.getLogger();
 
     public Responder(SocketChannel sender, boolean keepAlive)
     {
@@ -31,10 +35,14 @@ public class Responder implements Sendable
 
         try
         {
-            respondTo.write(response); //This should perhaps be thrown
+            int bytes_written = respondTo.write(response); //This should perhaps be thrown
+            logger.printf(PrintLevel.INFO, "Wrote %d bytes to %s\n", bytes_written, respondTo.getRemoteAddress());
             
             if(!keepAlive)
+            {
+                logger.printf(PrintLevel.INFO, "Closing connection to %s\n", respondTo.getRemoteAddress());
                 respondTo.close();  //this can be caught
+            }
         }
         catch(IOException e)
         {
