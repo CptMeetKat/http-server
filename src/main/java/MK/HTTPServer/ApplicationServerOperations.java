@@ -74,7 +74,7 @@ public class ApplicationServerOperations implements SelectionKeyOperations
         {
             int bytes_written = channel.write(ByteBuffer.wrap(httpRequest.serialize()));
             logger.printf(PrintLevel.INFO, "Wrote %d bytes to %s\n", bytes_written, channel.getLocalAddress());
-            logger.printf(PrintLevel.TRACE, "Message sent:\n%s\n", httpRequest.toString()); //TODO: IMPORTANT! what is sent and what is display may vary
+            logger.printf(PrintLevel.TRACE, "Message sent:(not accurate)\n%s\n", httpRequest.toString()); //TODO: IMPORTANT! what is sent and what is display may vary
         }
         catch(IOException e)
         {
