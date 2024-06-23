@@ -7,8 +7,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import MK.HTTPServer.Logger.PrintLevel;
+
 public class RequestRouter extends BaseHTTPHandler
 {
+    public static Logger logger = Logger.getLogger();
     SocketManager connection_manager;
     ArrayList<Route> routes = new ArrayList<Route>();
     public RequestRouter(Iterable<Route> routes)
@@ -73,14 +76,14 @@ public class RequestRouter extends BaseHTTPHandler
         Route route = findMatchingRoute(resolvedPath, context.getStaticRoot());
         if(route != null)
         {
-            System.out.println("Handling dynamic request");
+            logger.printf(PrintLevel.INFO, "Matched route '%s' forwarding request to %s:%s\n", route.getPath(), route.getIP(), route.getPort());
             try
             {
                 connection_manager.registerClientSocket(route.getIP(), route.getPort(), new ApplicationServerOperations(context.getHTTPRequest(), context.getResponder()));//Maybe this should just recv context
             }
             catch(IOException e)
             {
-                System.out.println("WARNING! : Unable to connect the 3rd party service");
+                logger.printf(PrintLevel.WARNING, "Unable to reach routed service at %s:%s\n", route.getIP(), route.getPort());
                 returnServiceUnavailable(context);
             }
         }
