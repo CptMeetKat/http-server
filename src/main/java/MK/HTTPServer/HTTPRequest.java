@@ -55,7 +55,7 @@ public class HTTPRequest
     }
 
     public byte[] serialize()
-    {
+    { //TODO: This should not use the original request and should use toString() instead
         byte[] bytes = original_request.toString().getBytes(StandardCharsets.UTF_8);
         return bytes;
     }

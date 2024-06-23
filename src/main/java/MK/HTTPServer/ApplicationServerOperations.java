@@ -7,9 +7,11 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 import java.util.HashMap;
 
+import MK.HTTPServer.Logger.PrintLevel;
+
 public class ApplicationServerOperations implements SelectionKeyOperations
 {
-
+    Logger logger = Logger.getLogger();
     private HashMap<String, StringBuilder> request_builder = new HashMap<>();
     HTTPRequest httpRequest;
     Sendable sender;
@@ -70,7 +72,9 @@ public class ApplicationServerOperations implements SelectionKeyOperations
 
         try
         {
-            channel.write(ByteBuffer.wrap(httpRequest.serialize()));
+            int bytes_written = channel.write(ByteBuffer.wrap(httpRequest.serialize()));
+            logger.printf(PrintLevel.INFO, "Wrote %d bytes to %s\n", bytes_written, channel.getLocalAddress());
+            logger.printf(PrintLevel.TRACE, "Message sent:\n%s\n", httpRequest.toString()); //TODO: IMPORTANT! what is sent and what is display may vary
         }
         catch(IOException e)
         {
