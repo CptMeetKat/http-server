@@ -85,23 +85,23 @@ public class SocketManager
 
                 if (key.isAcceptable()) 
                 {
-                    logger.print(PrintLevel.TRACE, "***Accepted connection***"); 
+                    logger.print(PrintLevel.DEBUG, "***Accepted connection***"); 
                     operations.accept(key);
                 }
 
                 else if (key.isReadable()) 
                 {
-                    logger.print(PrintLevel.TRACE, "***Reading connection***");
+                    logger.print(PrintLevel.INFO, "***Reading connection***");
                     operations.read(key);
                 }
                 else if(key.isConnectable())
                 {
-                    logger.print(PrintLevel.TRACE, "***Connecting application***");
+                    logger.print(PrintLevel.INFO, "***Connecting application***");
                     operations.connect(key);
                 }
                 else if(key.isWritable())
                 {
-                    logger.print(PrintLevel.TRACE, "***Writing application***");
+                    logger.print(PrintLevel.INFO, "***Writing application***");
                     operations.write(key);
                 }
                 i.remove(); 

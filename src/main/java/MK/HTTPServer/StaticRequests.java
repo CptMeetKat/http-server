@@ -8,19 +8,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import MK.HTTPServer.Logger.PrintLevel;
+
 
 public class StaticRequests extends BaseHTTPHandler
 {
+    private static Logger logger = Logger.getLogger();
     public void processRequest(HTTPHandlerContext context)
     {
         HTTPRequest request = context.getHTTPRequest();
 
         Path basePath = Paths.get(context.getStaticRoot());
         Path userPath = Paths.get("./" + request.getField("URI"));
-
-        System.out.printf("______basepath %s\n", basePath);
-        System.out.printf("______userpath %s\n", userPath);
-        System.out.printf("______URIPath %s\n", request.getField("URI"));
 
         Path resolvedPath = PathUtils.resolvePath(basePath, userPath);
 
@@ -43,7 +42,7 @@ public class StaticRequests extends BaseHTTPHandler
     private static HTTPResponse getHTMLFile( Path path) 
         throws IOException
     {
-        System.out.printf("GET file: %s\n", path);
+        logger.printf(PrintLevel.INFO,"Retrieving file: %s\n", path);
         String body = new String(getFileAsBytes(path.toString()));
         
         HTTPResponse response = HTTPResponse.createOKResponse();
