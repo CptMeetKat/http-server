@@ -3,7 +3,8 @@ package MK.HTTPServer;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
-public class HTTPRequest
+
+public class HTTPRequest 
 {
     String original_request;
 
@@ -12,7 +13,6 @@ public class HTTPRequest
     {
         setRequest(request);
         this.original_request = request;
-        System.out.println(this);
     }
 
     private void setRequest(String request)
@@ -31,7 +31,7 @@ public class HTTPRequest
             int seperator = l.indexOf(":");
             if(seperator != -1)
             {
-                request_map.put(l.substring(0, seperator), 
+                request_map.put(l.substring(0, seperator).toLowerCase(), 
                                 l.substring(seperator+1, l.length()-1));
             }
         }
