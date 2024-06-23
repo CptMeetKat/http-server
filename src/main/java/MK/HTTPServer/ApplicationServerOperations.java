@@ -38,16 +38,19 @@ public class ApplicationServerOperations implements SelectionKeyOperations
             ByteBuffer buffer = ByteBuffer.allocate(buffer_length); 
             int received_length = client.read(buffer); 
 
-            System.out.println("LEN: " + received_length);
             if(received_length == -1) //TODO: What if 0 (i.e. connection left open, and no bits to recv)
             {
-                String fulldata = request_builder.get(socketAddress).toString();
-                System.out.println("FULL DATA: " + fulldata);
-                client.close();
-                sender.send(   ByteBuffer.wrap(fulldata.getBytes())    );
+                logger.printf(PrintLevel.INFO, "End of stream received from %s\n", socketAddress);
+                String final_message = request_builder.get(socketAddress).toString();
+                logger.printf(PrintLevel.INFO, "Server %s assembled %d bytes from %s\n", client.getLocalAddress().toString(), final_message.length(), client.getRemoteAddress().toString());
+                logger.printf(PrintLevel.TRACE, "Message Received:\n%s\n", final_message);
+                logger.printf(PrintLevel.INFO, "Closing connection to %s\n", client.getRemoteAddress().toString());
+                client.close(); 
+                sender.send(   ByteBuffer.wrap(final_message.getBytes())    );
             }
             else
             {
+                logger.printf(PrintLevel.INFO, "Received length %d bytes from %s\n", received_length , socketAddress);
                 String data = new String(buffer.array()).substring(0, received_length);
                 if(request_builder.containsKey(socketAddress))
                     request_builder.get(socketAddress).append(data);
