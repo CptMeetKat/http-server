@@ -5,14 +5,13 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
-import java.util.HashMap;
 
 import MK.HTTPServer.Logger.PrintLevel;
 
 public class ApplicationServerOperations implements SelectionKeyOperations
 {
     Logger logger = Logger.getLogger();
-    private HashMap<String, StringBuilder> request_builder = new HashMap<>();
+    StringBuilder request_builder = new StringBuilder();
     HTTPRequest httpRequest;
     ByteBuffer buffer;
     Sendable sender;
@@ -43,7 +42,7 @@ public class ApplicationServerOperations implements SelectionKeyOperations
             if(received_length == -1) //TODO: What if 0 (i.e. connection left open, and no bits to recv)
             {
                 logger.printf(PrintLevel.INFO, "End of stream received from %s\n", socketAddress);
-                String final_message = request_builder.get(socketAddress).toString();
+                String final_message = request_builder.toString();
                 logger.printf(PrintLevel.INFO, "Server %s assembled %d bytes from %s\n", client.getLocalAddress().toString(), final_message.length(), client.getRemoteAddress().toString());
                 logger.printf(PrintLevel.TRACE, "Message Received:\n%s\n", final_message);
                 logger.printf(PrintLevel.INFO, "Closing connection to %s\n", client.getRemoteAddress().toString());
@@ -54,10 +53,7 @@ public class ApplicationServerOperations implements SelectionKeyOperations
             {
                 logger.printf(PrintLevel.INFO, "Received length %d bytes from %s\n", received_length , socketAddress);
                 String data = new String(buffer.array()).substring(0, received_length);
-                if(request_builder.containsKey(socketAddress))
-                    request_builder.get(socketAddress).append(data);
-                else
-                    request_builder.put(socketAddress, new StringBuilder(data));
+                request_builder.append(data);
             }
         }
         catch(IOException e)
