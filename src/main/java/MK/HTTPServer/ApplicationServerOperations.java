@@ -79,6 +79,10 @@ public class ApplicationServerOperations implements SelectionKeyOperations
              {
                  logger.printf(PrintLevel.TRACE, "Message sent:(not accurate)\n%s\n", httpRequest.toString()); //TODO: IMPORTANT! what is sent and what is display may vary
              }
+             else
+             {
+                key.interestOps(SelectionKey.OP_READ);
+             }
         }
         catch(IOException e)
         {
