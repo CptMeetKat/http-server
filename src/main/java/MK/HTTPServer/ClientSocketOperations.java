@@ -5,13 +5,12 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
-import java.util.HashMap;
 
 public class ClientSocketOperations implements SelectionKeyOperations //Client Operations
 {
-    private HashMap<String, StringBuilder> request_builder = new HashMap<>();
+    StringBuilder request_builder = new StringBuilder();
     public HTTPRequest httpRequest;
-    private ClientPostOperations postOperations;
+    ClientPostOperations postOperations;
 
 	public ClientSocketOperations(HTTPRequest httpRequest, ClientPostOperations postOperations) {
 		this.httpRequest = httpRequest;
@@ -30,7 +29,6 @@ public class ClientSocketOperations implements SelectionKeyOperations //Client O
         {
             int buffer_length = 256; //TODO: Make this bigger and dynamic
             SocketChannel client = (SocketChannel)key.channel(); 
-            String socketAddress = client.getRemoteAddress().toString();
 
             ByteBuffer buffer = ByteBuffer.allocate(buffer_length); 
             int received_length = client.read(buffer); 
@@ -38,7 +36,7 @@ public class ClientSocketOperations implements SelectionKeyOperations //Client O
             System.out.println("LEN: " + received_length);
             if(received_length == -1) //TODO: What if 0 (i.e. connection left open, and no bits to recv)
             {
-                String fulldata = request_builder.get(socketAddress).toString();
+                String fulldata = request_builder.toString();
                 System.out.println("FULL DATA: " + fulldata);
                 client.close();
                 postOperations.onReadComplete(client, fulldata);
@@ -46,10 +44,7 @@ public class ClientSocketOperations implements SelectionKeyOperations //Client O
             else
             {
                 String data = new String(buffer.array()).substring(0, received_length);
-                if(request_builder.containsKey(socketAddress))
-                    request_builder.get(socketAddress).append(data);
-                else
-                    request_builder.put(socketAddress, new StringBuilder(data));
+                request_builder.append(data);
             }
         }
         catch(IOException e)
