@@ -11,12 +11,10 @@ public class ClientSocketOperations implements SelectionKeyOperations //Client O
 {
     private HashMap<String, StringBuilder> request_builder = new HashMap<>();
     public HTTPRequest httpRequest;
-    //public Sendable sender;
     private ClientPostOperations postOperations;
 
-	public ClientSocketOperations(HTTPRequest httpRequest/*, Sendable sender*/, ClientPostOperations postOperations) {
+	public ClientSocketOperations(HTTPRequest httpRequest, ClientPostOperations postOperations) {
 		this.httpRequest = httpRequest;
-        //this.sender = sender; This interface is essentially to be replaced by onReadComplete
         this.postOperations = postOperations;
 	}
 
@@ -59,13 +57,6 @@ public class ClientSocketOperations implements SelectionKeyOperations //Client O
             System.out.println(e);
         }
 	}
-
-    //abstract void onReadComplete(String data);
-
-    //protected void onReadComplete(String data)
-    //{
-    //    sender.send(   ByteBuffer.wrap(data.getBytes())    );
-    //}
 
 	@Override
 	public void connect(SelectionKey key) {
