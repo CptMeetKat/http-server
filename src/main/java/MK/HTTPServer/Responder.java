@@ -37,12 +37,16 @@ public class Responder implements Sendable
         {
             int bytes_written = respondTo.write(response); //This should perhaps be thrown
             logger.printf(PrintLevel.INFO, "Wrote %d bytes to %s\n", bytes_written, respondTo.getRemoteAddress());
-            
-            if(!keepAlive)
+            if(response.remaining() == 0)
             {
-                logger.printf(PrintLevel.INFO, "Closing connection to %s\n", respondTo.getRemoteAddress());
-                respondTo.close();  //this can be caught
+                respondTo.close();
             }
+            //if(!keepAlive)
+            //{
+            //   //logger.printf(PrintLevel.WARNING, "You may be closing final socket before data is being sent\n");
+            //    //logger.printf(PrintLevel.INFO, "Closing connection to %s\n", respondTo.getRemoteAddress());
+            //    //respondTo.close();  //this can be caught
+            //}
         }
         catch(IOException e)
         {
