@@ -16,8 +16,6 @@ public class HTTPServer
             BaseHTTPHandler pipeline = new RequestRouter(routes);
             pipeline.setTail(new StaticRequests());
 
-
-
             HTTPServerPostOperations callback = new HTTPServerPostOperations(static_root, pipeline);
             ServerSocketOperations operations = new ServerSocketOperations(buffer_length, callback, false);
 
