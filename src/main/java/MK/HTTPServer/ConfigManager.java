@@ -7,10 +7,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+import MK.HTTPServer.Logger.PrintLevel;
+
 public class ConfigManager
 {
     private HashMap<String, String> config = new HashMap<>();
     private ArrayList<String> field_order = new ArrayList<String>();//Maintain order for printing
+    private Logger logger = Logger.getLogger();
 
     public ConfigManager(String config_path)
     {
@@ -53,7 +56,7 @@ public class ConfigManager
                 String[] config_tuple = l.split("=");
                 if(config_tuple.length > 2)
                 {
-                    System.err.println("Config error: more than 1 value pair detected");
+                    logger.printf(PrintLevel.ERROR, "Bad config detected, more than 1 value pair in field\n"); //TODO: Could add line number
                     System.exit(1);
                 }
                 addConfig(config_tuple[0], config_tuple[1]);
@@ -61,7 +64,7 @@ public class ConfigManager
         }
         catch(IOException e)
         {
-            System.err.println("An error occurred: " + e.getMessage());
+            logger.printf(PrintLevel.ERROR, "%s\n", e.getMessage());
             System.exit(1);
         }
     }
