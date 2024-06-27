@@ -79,7 +79,8 @@ public class RequestRouter extends BaseHTTPHandler
             logger.printf(PrintLevel.INFO, "Matched route '%s' forwarding request to %s:%s\n", route.getPath(), route.getIP(), route.getPort());
             try
             {
-                connection_manager.registerClientSocket(route.getIP(), route.getPort(), new ApplicationServerOperations(context.getHTTPRequest(), context.getResponder()));//Maybe this should just recv context
+                connection_manager.registerClientSocket(route.getIP(), route.getPort(), 
+                        new ClientSocketOperations(context.getHTTPRequest(), new ApplicationServerPostOperations(context.getResponder())));
             }
             catch(IOException e)
             {
