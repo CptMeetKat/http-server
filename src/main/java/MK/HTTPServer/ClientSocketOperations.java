@@ -48,7 +48,7 @@ public class ClientSocketOperations implements SelectionKeyOperations //Client O
                 logger.printf(PrintLevel.INFO, "Closing connection to %s\n", client.getRemoteAddress().toString());
                 client.close();
 
-                logger.printf(PrintLevel.INFO, "%s operating on completed data\n", postOperations.getClass().getSimpleName());
+                logger.printf(PrintLevel.INFO, "%s operating on receieved data\n", postOperations.getClass().getSimpleName());
                 postOperations.onReadComplete(client, final_message);
             }
             else

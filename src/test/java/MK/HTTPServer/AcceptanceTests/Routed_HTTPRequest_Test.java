@@ -21,12 +21,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import MK.HTTPServer.Logger;
+import MK.HTTPServer.Logger.PrintLevel;
 
 @Category(SlowTests.class)
 public class Routed_HTTPRequest_Test{
 
     private static App service;
     private static ExecutorService executorService;
+    private static Logger logger = Logger.getLogger();
 
     @BeforeClass
     public static void startService() {
@@ -59,6 +62,8 @@ public class Routed_HTTPRequest_Test{
     @AfterClass
     public static void stopService() throws InterruptedException {
         if (service != null) {
+            logger.printf(PrintLevel.INFO, "Stopping app...\n");
+
             System.out.println("stopping app");
             service.stop();
         }

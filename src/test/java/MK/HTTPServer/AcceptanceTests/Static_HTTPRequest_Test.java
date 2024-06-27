@@ -21,11 +21,15 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 
+import MK.HTTPServer.Logger;
+import MK.HTTPServer.Logger.PrintLevel;
+
 @Category(SlowTests.class)
 public class Static_HTTPRequest_Test{
 
     private static App service;
     private static ExecutorService executorService;
+    private static Logger logger = Logger.getLogger();
 
     @BeforeClass
     public static void startService() {
@@ -46,6 +50,7 @@ public class Static_HTTPRequest_Test{
     @AfterClass
     public static void stopService() throws InterruptedException {
         if (service != null) {
+            logger.printf(PrintLevel.INFO, "Stopping app...\n");
             service.stop();
         }
         if (executorService != null) {
@@ -79,7 +84,7 @@ public class Static_HTTPRequest_Test{
         }
         catch(IOException e)
         {
-            e.printStackTrace();
+            logger.printf(PrintLevel.ERROR, "Unable to obtain socket\n");
             fail("Unable to obtain socket");
             return;
         }
@@ -88,8 +93,6 @@ public class Static_HTTPRequest_Test{
         HTTPResponse response = new HTTPResponse(result);
         assertTrue(response.getStatusCode().equals("200"));
     }
-
-
 
     @Test
     public void when_static_file_does_not_exist_requested_return_HTTP_404() 
@@ -112,6 +115,7 @@ public class Static_HTTPRequest_Test{
         }
         catch(IOException e)
         {
+            logger.printf(PrintLevel.ERROR, "Unable to obtain socket\n");
             fail("Unable to obtain socket");
             return;
         }
