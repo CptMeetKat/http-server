@@ -28,7 +28,7 @@ public class RequestRouter extends BaseHTTPHandler
         }
         catch(IOException e)
         {
-            System.out.println(e);
+            logger.printf(PrintLevel.ERROR, "Unable to obtain socket manager\n");
         }
     }
 
@@ -82,6 +82,7 @@ public class RequestRouter extends BaseHTTPHandler
                 connection_manager.registerClientSocket(route.getIP(), route.getPort(), 
                         new ClientSocketOperations(context.getHTTPRequest(), new ApplicationServerPostOperations(context.getResponder())));
             }
+
             catch(IOException e)
             {
                 logger.printf(PrintLevel.WARNING, "Unable to reach routed service at %s:%s\n", route.getIP(), route.getPort());

@@ -47,8 +47,7 @@ public class ServerSocketOperations implements SelectionKeyOperations
         }
         catch(IOException e)
         {
-            System.out.println("Error: HTTPServer could not accept connection");
-            e.printStackTrace();
+            logger.printf(PrintLevel.ERROR, "HTTPServer could not accept connection\n");
         }
 	}
 
@@ -98,8 +97,7 @@ public class ServerSocketOperations implements SelectionKeyOperations
         }
         catch(IOException e)
         {
-            System.out.println("error: " + e);
-            e.printStackTrace();
+            logger.printf(PrintLevel.ERROR, "Failed to read from remote client\n");
         }
 	}
 

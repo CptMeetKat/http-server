@@ -3,10 +3,12 @@ package MK.HTTPServer;
 
 import java.io.IOException; 
 
+import MK.HTTPServer.Logger.PrintLevel;
+
 public class HTTPServer 
 {
     SocketManager multiplexer;
-
+    static Logger logger = Logger.getLogger();
     public HTTPServer(int port, int buffer_length, String static_root, Iterable<Route> routes)
     {
         try
@@ -23,7 +25,7 @@ public class HTTPServer
         }
         catch(IOException e)
         {
-            System.out.println(e);
+            logger.printf(PrintLevel.ERROR, "Unable to initialise HTTPServer\n");
         }
     }
 
@@ -35,11 +37,11 @@ public class HTTPServer
 
     public void start()
     {
-        try { 
+        try {
             multiplexer.run();
         } 
         catch (IOException e) { 
-            System.out.println("An error occurred: " + e.getMessage());
+            logger.printf(PrintLevel.ERROR, "Unexpected issue in the asynchronous socket loop\n");
         } 
         finally
         {

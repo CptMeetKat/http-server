@@ -60,7 +60,7 @@ public class ClientSocketOperations implements SelectionKeyOperations //Client O
         }
         catch(IOException e)
         {
-            System.out.println(e);
+            logger.printf(PrintLevel.ERROR, "Failed to read from remote server\n");
         }
 	}
 
@@ -90,7 +90,7 @@ public class ClientSocketOperations implements SelectionKeyOperations //Client O
         }
         catch(IOException e)
         {
-            System.out.println(e);
+            logger.printf(PrintLevel.ERROR, "Failed to write to remote server\n");
         }
 	}
 }

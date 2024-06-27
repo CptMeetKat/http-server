@@ -44,8 +44,7 @@ public class Routed_HTTPRequest_Test{
             manager.registerServerSocket("localhost", 8005, new ServerSocketOperations(256, 
                                                              new MockRoutedServerOperations("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 13\r\n\r\nHello, world!")));
         } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Fail1");
+            logger.printf(PrintLevel.ERROR, "Unable to obtain socket manager\n");
         }
 
         executorService = Executors.newSingleThreadExecutor();
@@ -54,7 +53,6 @@ public class Routed_HTTPRequest_Test{
         try {
             Thread.sleep(1000); // Wait for the service to start //TODO: Can improve speed and consistency by checking the state of service rather than just waiting
         } catch (InterruptedException e) {
-            System.out.println("interupt");
             Thread.currentThread().interrupt();
         }
     }
@@ -63,8 +61,6 @@ public class Routed_HTTPRequest_Test{
     public static void stopService() throws InterruptedException {
         if (service != null) {
             logger.printf(PrintLevel.INFO, "Stopping app...\n");
-
-            System.out.println("stopping app");
             service.stop();
         }
         if (executorService != null) {
@@ -93,14 +89,11 @@ public class Routed_HTTPRequest_Test{
                         throw new InterruptedException();
                     Thread.sleep(1000);
                 }
-            } catch (InterruptedException e) 
-            {
-                System.out.println("Interupted Early");
-            }
+            } catch (InterruptedException e) {}
         }
         catch(IOException e)
         {
-            System.out.println("Unable to obtain socket");
+            logger.printf(PrintLevel.ERROR, "Unable to obtain socket\n");
             fail("Unable to obtain socket");
             return;
         }

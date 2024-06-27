@@ -35,7 +35,7 @@ public class StaticRequests extends BaseHTTPHandler
         }
         catch(IOException e)
         {
-            System.out.println("ERROR");
+            logger.printf(PrintLevel.ERROR, "%s unable to process request\n", this.getClass().getSimpleName());
         }
     }
 

@@ -31,8 +31,8 @@ public class SocketManager
 
     public void close()
     {
-        try {
-            System.out.println("Closing selector...");
+        try { //TODO: This is never called?
+            logger.printf(PrintLevel.INFO, "Closing selector...\n");
             if(selector != null && selector.isOpen())
             {
                 selector.close();
@@ -41,8 +41,8 @@ public class SocketManager
                 isRunning = false;
             }
 
-        } catch (Exception e) {
-            System.out.println(e);
+        } catch (IOException e) {
+            logger.printf(PrintLevel.ERROR, "Unable to close selector\n");
         }
     }
 
@@ -69,7 +69,7 @@ public class SocketManager
         }
         catch(IOException e)
         {
-            System.out.println(e);
+            logger.printf(PrintLevel.ERROR, "Unable to register sever socket\n");
         }
     }
 
