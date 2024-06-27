@@ -33,6 +33,15 @@ public class App
         routes = new ArrayList<Route>();
     }
 
+
+    public void loadDefault1()
+    {
+        inbound_port = 8081;
+        buffer_size = 256;
+        static_root = System.getProperty("user.dir") + "/static/";
+        routes = new ArrayList<Route>();
+    }
+
     public void loadConfig()
     {
         ConfigManager manager = new ConfigManager("./server.config");

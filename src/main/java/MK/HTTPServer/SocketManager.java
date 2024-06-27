@@ -33,9 +33,14 @@ public class SocketManager
     {
         try {
             System.out.println("Closing selector...");
-            if(selector != null)
+            if(selector != null && selector.isOpen())
+            {
                 selector.close();
-            
+                manager = null;
+                selector = null;
+                isRunning = false;
+            }
+
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -86,8 +91,9 @@ public class SocketManager
     public void run()
         throws IOException
     {
+        isRunning = true; //TODO: variable name and use is a bit flawed
         while (isRunning) {
-            selector.select(); //Blocking
+            selector.selectNow(); //Blocking
             Set<SelectionKey> selectedKeys = selector.selectedKeys();
             Iterator<SelectionKey> i = selectedKeys.iterator(); 
 
@@ -100,7 +106,6 @@ public class SocketManager
                     logger.print(PrintLevel.DEBUG, "***Accepted connection***"); 
                     operations.accept(key);
                 }
-
                 else if (key.isReadable()) 
                 {
                     logger.print(PrintLevel.INFO, "***Reading connection***");

@@ -31,14 +31,14 @@ public class Routed_HTTPRequest_Test{
     @BeforeClass
     public static void startService() {
 
-        Route route1 = new Route("localhost", 8001, "dynamic");
+        Route route1 = new Route("localhost", 8005, "dynamic");
         service = new App();
-        service.loadDefault();
+        service.loadDefault1();
         service.routes.add(route1);
 
         try {
             SocketManager manager = SocketManager.getSocketManager();
-            manager.registerServerSocket("localhost", 8001, new ServerSocketOperations(256, 
+            manager.registerServerSocket("localhost", 8005, new ServerSocketOperations(256, 
                                                              new MockRoutedServerOperations("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 13\r\n\r\nHello, world!")));
         } catch (IOException e) {
             e.printStackTrace();
