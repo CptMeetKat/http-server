@@ -17,12 +17,22 @@ public class ServerSocketOperations implements SelectionKeyOperations
     private HashMap<String, StringBuilder> request_builder = new HashMap<>();
     private static Logger logger = Logger.getLogger();
     private SocketPostOperations postOperations;
+    boolean closeAfterRead;
+
+
+    public ServerSocketOperations(int buffer_length, SocketPostOperations postOperations, boolean closeAfterRead)
+    {
+        this.buffer_length = buffer_length;
+        this.postOperations = postOperations;
+        this.closeAfterRead = closeAfterRead;
+    }
 
 
     public ServerSocketOperations(int buffer_length, SocketPostOperations postOperations)
     {
         this.buffer_length = buffer_length;
         this.postOperations = postOperations;
+        this.closeAfterRead = true;
     }
 
 	@Override
@@ -78,7 +88,11 @@ public class ServerSocketOperations implements SelectionKeyOperations
                 
                 String request = request_builder.get(socketAddress).toString();
                 postOperations.onReadComplete(client, request);
-                client.close();
+
+                if(closeAfterRead)
+                {
+                    client.close();
+                }
                 request_builder.remove(socketAddress);
             }
         }

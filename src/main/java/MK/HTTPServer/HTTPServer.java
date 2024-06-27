@@ -2,7 +2,6 @@
 package MK.HTTPServer;
 
 import java.io.IOException; 
-import MK.HTTPServer.ServerSocketOperations;
 
 public class HTTPServer 
 {
@@ -16,9 +15,11 @@ public class HTTPServer
 
             BaseHTTPHandler pipeline = new RequestRouter(routes);
             pipeline.setTail(new StaticRequests());
-            HTTPServerOperations operations = new HTTPServerOperations(static_root, pipeline,
-                                                                       buffer_length);
-//            ServerSocketOperations x = new ServerSocketOperations(buffer_length, postOperations);
+
+
+
+            HTTPServerPostOperations callback = new HTTPServerPostOperations(static_root, pipeline);
+            ServerSocketOperations operations = new ServerSocketOperations(buffer_length, callback, false);
 
             multiplexer.registerServerSocket("localhost", port, operations);
         }
