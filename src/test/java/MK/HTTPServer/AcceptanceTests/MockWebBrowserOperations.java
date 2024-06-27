@@ -3,11 +3,11 @@ package MK.HTTPServer.AcceptanceTests;
 
 import java.nio.channels.SocketChannel;
 
-import MK.HTTPServer.ClientPostOperations;
+import MK.HTTPServer.SocketPostOperations;
 import MK.HTTPServer.Logger;
 import MK.HTTPServer.Logger.PrintLevel;
 
-public class MockWebBrowserOperations implements ClientPostOperations
+public class MockWebBrowserOperations implements SocketPostOperations
 {
     Logger logger = Logger.getLogger();
     boolean complete = false;

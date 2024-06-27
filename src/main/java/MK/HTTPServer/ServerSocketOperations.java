@@ -16,10 +16,10 @@ public class ServerSocketOperations implements SelectionKeyOperations
     private int buffer_length = 256; //This is also managed through config
     private HashMap<String, StringBuilder> request_builder = new HashMap<>();
     private static Logger logger = Logger.getLogger();
-    private ClientPostOperations postOperations;
+    private SocketPostOperations postOperations;
 
 
-    public ServerSocketOperations(int buffer_length, ClientPostOperations postOperations)
+    public ServerSocketOperations(int buffer_length, SocketPostOperations postOperations)
     {
         this.buffer_length = buffer_length;
         this.postOperations = postOperations;

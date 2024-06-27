@@ -12,10 +12,10 @@ public class ClientSocketOperations implements SelectionKeyOperations //Client O
 {
     StringBuilder request_builder = new StringBuilder();
     public ByteBuffer buffer;
-    ClientPostOperations postOperations;
+    SocketPostOperations postOperations;
     Logger logger = Logger.getLogger();
 
-	public ClientSocketOperations(HTTPRequest httpRequest, ClientPostOperations postOperations) {
+	public ClientSocketOperations(HTTPRequest httpRequest, SocketPostOperations postOperations) {
 		this.buffer = ByteBuffer.wrap(httpRequest.serialize());
         this.postOperations = postOperations;
 	}
