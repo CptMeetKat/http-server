@@ -49,7 +49,7 @@ public class Routed_HTTPRequest_Test{
         executorService.submit(() -> service.start());
 
         try {
-            Thread.sleep(2000); // Wait for the service to start
+            Thread.sleep(1000); // Wait for the service to start //TODO: Can improve speed and consistency by checking the state of service rather than just waiting
         } catch (InterruptedException e) {
             System.out.println("interupt");
             Thread.currentThread().interrupt();
