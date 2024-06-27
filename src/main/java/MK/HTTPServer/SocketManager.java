@@ -103,7 +103,7 @@ public class SocketManager
 
                 if (key.isAcceptable()) 
                 {
-                    logger.print(PrintLevel.DEBUG, "***Accepted connection***"); 
+                    logger.print(PrintLevel.INFO, "***Accepted connection***"); 
                     operations.accept(key);
                 }
                 else if (key.isReadable()) 
