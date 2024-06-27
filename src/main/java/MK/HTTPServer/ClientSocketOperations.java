@@ -14,8 +14,10 @@ public class ClientSocketOperations implements SelectionKeyOperations //Client O
     public ByteBuffer buffer;
     SocketPostOperations postOperations;
     Logger logger = Logger.getLogger();
+    HTTPRequest httpRequest;
 
 	public ClientSocketOperations(HTTPRequest httpRequest, SocketPostOperations postOperations) {
+        this.httpRequest = httpRequest;
 		this.buffer = ByteBuffer.wrap(httpRequest.serialize());
         this.postOperations = postOperations;
 	}
@@ -32,22 +34,26 @@ public class ClientSocketOperations implements SelectionKeyOperations //Client O
         {
             int buffer_length = 256; //TODO: Make this bigger and dynamic
             SocketChannel client = (SocketChannel)key.channel(); 
+            String socketAddress = client.getRemoteAddress().toString();
 
             ByteBuffer buffer = ByteBuffer.allocate(buffer_length); 
             int received_length = client.read(buffer); 
 
-            System.out.println("LEN: " + received_length);
             if(received_length == -1) //TODO: What if 0 (i.e. connection left open, and no bits to recv)
             {
-                String fulldata = request_builder.toString();
-                System.out.println("FULL DATA: " + fulldata);
+                logger.printf(PrintLevel.INFO, "End of stream received from %s\n", socketAddress);
+                String final_message = request_builder.toString();
+                logger.printf(PrintLevel.INFO, "Server %s assembled %d bytes from %s\n", client.getLocalAddress().toString(), final_message.length(), client.getRemoteAddress().toString());
+                logger.printf(PrintLevel.TRACE, "Message Received:\n%s\n", final_message);
+                logger.printf(PrintLevel.INFO, "Closing connection to %s\n", client.getRemoteAddress().toString());
                 client.close();
 
                 logger.printf(PrintLevel.INFO, "%s operating on completed data\n", postOperations.getClass().getSimpleName());
-                postOperations.onReadComplete(client, fulldata);
+                postOperations.onReadComplete(client, final_message);
             }
             else
             {
+                logger.printf(PrintLevel.INFO, "Received length %d bytes from %s\n", received_length , socketAddress);
                 String data = new String(buffer.array()).substring(0, received_length);
                 request_builder.append(data);
             }
@@ -70,15 +76,15 @@ public class ClientSocketOperations implements SelectionKeyOperations //Client O
         try
         {
             int bytes_written = channel.write(buffer);
-            logger.printf(PrintLevel.INFO, "_Wrote %d bytes to %s\n", bytes_written, channel.getRemoteAddress());
+            logger.printf(PrintLevel.INFO, "Wrote %d bytes to %s\n", bytes_written, channel.getRemoteAddress());
+            // TODO: This can be improved by showing what was sent
+            // logger.printf(PrintLevel.TRACE, "Message sent:(not accurate)\n%s\n", httpRequest.toString()); //TODO: IMPORTANT! what is sent and what is display may vary
             if(buffer.remaining() > 0)
             {
-                //logger.printf(PrintLevel.TRACE, "Message sent:(not accurate)\n%s\n", httpRequest.toString()); //TODO: IMPORTANT! what is sent and what is display may vary
-                logger.printf(PrintLevel.INFO, "still sending buffer\n"); //TODO: IMPORTANT! what is sent and what is display may vary
+                logger.printf(PrintLevel.INFO, "still sending buffer\n"); 
             }
             else
             {
-                //channel.close();
                 key.interestOps(SelectionKey.OP_READ);
             }
         }
