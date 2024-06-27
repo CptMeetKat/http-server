@@ -6,7 +6,6 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
 import MK.HTTPServer.SocketPostOperations;
-import MK.HTTPServer.HTTPResponse;
 
 public class MockRoutedServerOperations implements SocketPostOperations
 {
@@ -25,9 +24,6 @@ public class MockRoutedServerOperations implements SocketPostOperations
 	public void onReadComplete(SocketChannel sender, String data) {
         this.data = data;
         try {
-            //System.out.println("RESPONSE___:" + response);
-            //sender.write(ByteBuffer.wrap(new HTTPResponse(response).serialize()));
-            //sender.write(ByteBuffer.wrap(response.getBytes()));
             sender.write(response);
         } catch (IOException e) {
             System.err.println("Unable to send data " + e );

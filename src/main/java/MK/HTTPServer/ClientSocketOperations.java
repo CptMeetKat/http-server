@@ -42,6 +42,8 @@ public class ClientSocketOperations implements SelectionKeyOperations //Client O
                 String fulldata = request_builder.toString();
                 System.out.println("FULL DATA: " + fulldata);
                 client.close();
+
+                logger.printf(PrintLevel.INFO, "%s operating on completed data\n", postOperations.getClass().getSimpleName());
                 postOperations.onReadComplete(client, fulldata);
             }
             else

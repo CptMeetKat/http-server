@@ -20,7 +20,7 @@ public class HTTPServerPostOperations implements SocketPostOperations
 	@Override
 	public void onReadComplete(SocketChannel sender, String data) {
      
-        logger.printf(PrintLevel.ERROR, "I received_ the data, we are good\n");
+//        logger.printf(PrintLevel.INFO, "%s operating on completed data\n", this.getClass().getSimpleName());
 
         HTTPRequest request = new HTTPRequest(data);
 

@@ -84,8 +84,8 @@ public class ServerSocketOperations implements SelectionKeyOperations
             if( request_builder.get(socketAddress).toString().endsWith("\r\n\r\n") ) //may change later when body is parsed
             {
                 logger.printf(PrintLevel.TRACE, "Final Message: '%s'\n", request_builder.get(socketAddress));
-                //HTTPRequest request = new HTTPRequest(request_builder.get(socketAddress).toString());
-                
+                logger.printf(PrintLevel.INFO, "%s operating on completed data\n", postOperations.getClass().getSimpleName());
+
                 String request = request_builder.get(socketAddress).toString();
                 postOperations.onReadComplete(client, request);
 
