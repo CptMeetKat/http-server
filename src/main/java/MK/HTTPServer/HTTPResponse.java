@@ -5,17 +5,14 @@ import java.util.HashMap;
 
 public class HTTPResponse
 {
-    String version;
-    String status_code;
-    String reason_phrase;
-    String body;
+    String version = "";
+    String status_code = "";
+    String reason_phrase = "";
+    String body = "";
 
     HashMap<String, String> headers = new HashMap<String, String>();
 
-    public HTTPResponse()
-    {
-        reason_phrase = "";
-    }
+    public HTTPResponse() {}
 
     @Override
     public boolean equals(Object obj)
@@ -73,8 +70,9 @@ public class HTTPResponse
             setField(pair[0], pair[1]);
             i++;
         }
-        //TODO: Test for empty body resposne
-       body = lines[i+1]; //TODO: parse body
+
+    if(i+1 < lines.length)
+       body = lines[i+1];
     }
 
     public String getStatusCode()
