@@ -32,7 +32,6 @@ public class HTTPServer
     public void stop()
     {
         multiplexer.stop();
-        multiplexer = null;
     }
 
     public void start()
