@@ -31,9 +31,8 @@ public class SocketManager
 
     public void close()
     {
-        try { //TODO: This is never called?
+        try { 
             logger.printf(PrintLevel.INFO, "Closing selector...\n");
-            stop();
             if(selector != null && selector.isOpen())
             {
                 selector.close();
@@ -85,6 +84,7 @@ public class SocketManager
     public void stop()
     {
         isRunning = false;
+        close();
     }
 
     public void run()

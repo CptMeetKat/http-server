@@ -42,10 +42,6 @@ public class HTTPServer
         catch (IOException e) { 
             logger.printf(PrintLevel.ERROR, "Unexpected issue in the asynchronous socket loop\n");
         } 
-        finally
-        {
-            multiplexer.close();
-        }
     }
 }
 
