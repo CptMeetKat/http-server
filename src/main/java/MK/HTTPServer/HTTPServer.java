@@ -40,7 +40,7 @@ public class HTTPServer
             multiplexer.run();
         } 
         catch (IOException e) { 
-            logger.printf(PrintLevel.ERROR, "Unexpected issue in the asynchronous socket loop\n");
+            logger.printf(PrintLevel.ERROR, "%s\n", e.getMessage());
         } 
     }
 }
