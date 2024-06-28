@@ -141,16 +141,19 @@ public class HTTPResponse
     public byte[] serialize()
     {
         addKeepAlive(); //TODO: This should be added when needed and honoured not all the time
+        String response = this.toString();
+        byte[] response_bytes = response.toString().getBytes(StandardCharsets.UTF_8);
+        return response_bytes;
+    }
+    
+    @Override
+    public String toString()
+    {
         StringBuilder response = new StringBuilder();
         response.append(getRequestLine());
         response.append(getHeaders());
         response.append("\r\n\r\n");
         response.append(body);
-
-        byte[] response_bytes = response.toString().getBytes(StandardCharsets.UTF_8);
-        return response_bytes;
+		return response.toString();
     }
-
-
-    //TODO: add toString();
 }
