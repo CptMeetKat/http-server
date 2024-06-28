@@ -113,7 +113,12 @@ public class HTTPResponse
         return body;
     }
 
-    private String getHeaders() //TODO: Name change
+    private String getRequestLine()
+    {
+        return version + " " + status_code + " " + reason_phrase + "\r\n";
+    }
+
+    private String getHeaders()
     {
         StringBuilder header_builder = new StringBuilder();
         for(String field : headers.keySet())
@@ -137,7 +142,7 @@ public class HTTPResponse
     {
         addKeepAlive(); //TODO: This should be added when needed and honoured not all the time
         StringBuilder response = new StringBuilder();
-        response.append(version + " " + status_code + " " + reason_phrase + "\r\n");
+        response.append(getRequestLine());
         response.append(getHeaders());
         response.append("\r\n\r\n");
         response.append(body);
