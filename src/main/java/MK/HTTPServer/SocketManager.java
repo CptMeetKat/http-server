@@ -92,7 +92,7 @@ public class SocketManager
     {
         isRunning = true;
         while (isRunning) {
-            selector.selectNow(); //Blocking
+            selector.selectNow(); 
             Set<SelectionKey> selectedKeys = selector.selectedKeys();
             Iterator<SelectionKey> i = selectedKeys.iterator(); 
 
