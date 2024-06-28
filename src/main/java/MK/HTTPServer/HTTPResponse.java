@@ -17,10 +17,41 @@ public class HTTPResponse
         reason_phrase = "";
     }
 
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == this)  //Memory location check
+            return true;
+
+        if (!(obj instanceof HTTPResponse)) 
+            return false;
+
+        HTTPResponse other = (HTTPResponse) obj;
+        if(this.headers.size() != other.headers.size())
+            return false;
+
+        if(!version.equals(other.version) ||
+                !status_code.equals(other.status_code) ||
+                !reason_phrase.equals(other.reason_phrase) ||
+                !body.equals(other.body))
+            return false;
+
+        for(String field : headers.keySet())
+        {
+            if(! headers.get(field).equals(other.headers.get(field)))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public HTTPResponse(String response)
     {
         parseResponse(response);
     }
+
 
     public void parseResponse(String response)
     {
