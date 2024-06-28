@@ -62,16 +62,19 @@ public class HTTPResponse
         status_code = statusline[1];
         reason_phrase = statusline[2];
 
-        for(int i = 1; i < lines.length; i++)
+        int i = 1;
+        while(i < lines.length)
         {
             if(lines[i].trim() == "")
                 break;
-            String[] pair = lines[i].split(":");
-            headers.put(pair[0], pair[1]);
-        }
 
-       //body = ""; //TODO: parse body
-       ////TODO: Test code for this
+            int splitAt = lines[i].indexOf(":");
+            String[] pair = StringUtils.splitStringAtPos(lines[i], splitAt);
+            setField(pair[0], pair[1]);
+            i++;
+        }
+        //TODO: Test for empty body resposne
+       body = lines[i+1]; //TODO: parse body
     }
 
     public String getStatusCode()
