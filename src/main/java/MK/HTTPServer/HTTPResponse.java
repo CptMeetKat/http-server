@@ -79,6 +79,16 @@ public class HTTPResponse
         return status_code;
     }
 
+    public void setField(String field, String value)
+    {
+        headers.put(field.trim().toLowerCase(),
+                    value.trim());
+    }
+
+    public String getField(String field)
+    {
+        return headers.get(field.trim().toLowerCase());
+    }
 
     public static HTTPResponse createOKResponse()
     {
@@ -130,13 +140,13 @@ public class HTTPResponse
 
     public void setContentType(String content_type)
     {
-        headers.put("Content-Type", content_type);
+        setField("Content-Type", content_type);
     }
 
     public void setBody(String body)
     {
         this.body = body;
-        headers.put("Content-Length", String.valueOf(body.length()));
+        setField("Content-Length", String.valueOf(body.length()));
     }
 
     public String getBody()
@@ -165,8 +175,8 @@ public class HTTPResponse
 
     public void addKeepAlive() 
     {
-        headers.put("Connection", "keep-alive");
-        headers.put("Keep-Alive", "max=100");
+        setField("Connection", "keep-alive");
+        setField("Keep-Alive", "max=100");
     }
 
     public byte[] serialize()
