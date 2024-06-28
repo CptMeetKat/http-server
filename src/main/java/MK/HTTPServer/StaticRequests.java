@@ -19,7 +19,7 @@ public class StaticRequests extends BaseHTTPHandler
         HTTPRequest request = context.getHTTPRequest();
 
         Path basePath = Paths.get(context.getStaticRoot());
-        Path userPath = Paths.get("./" + request.getField("URI"));
+        Path userPath = Paths.get("./" + request.getURI());
 
         Path resolvedPath = PathUtils.resolvePath(basePath, userPath);
 

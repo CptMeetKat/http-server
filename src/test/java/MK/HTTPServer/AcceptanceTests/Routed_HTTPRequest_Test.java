@@ -7,6 +7,7 @@ import org.junit.experimental.categories.Category;
 import MK.HTTPServer.App;
 import MK.HTTPServer.ClientSocketOperations;
 import MK.HTTPServer.HTTPRequest;
+import MK.HTTPServer.HTTPResponse;
 import MK.HTTPServer.Route;
 import MK.HTTPServer.ServerSocketOperations;
 
@@ -34,15 +35,16 @@ public class Routed_HTTPRequest_Test{
     @BeforeClass
     public static void startService() {
 
-        Route route1 = new Route("localhost", 8005, "dynamic");
+        Route route1 = new Route("localhost", 8005, "dynamic"); //TODO: This only work while we still have our sample file, test is not isolated enough
         service = new App();
         service.loadDefault1();
         service.routes.add(route1);
 
         try {
+            HTTPResponse response = new HTTPResponse("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 13\r\n\r\nHello, world!");
             SocketManager manager = SocketManager.getSocketManager();
             manager.registerServerSocket("localhost", 8005, new ServerSocketOperations(256, 
-                                                             new MockRoutedServerOperations("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 13\r\n\r\nHello, world!")));
+                                                             new MockRoutedServerOperations(response.toString()))); //TODO: This is a hardcoded response that should be changed
         } catch (IOException e) {
             logger.printf(PrintLevel.ERROR, "Unable to obtain socket manager\n");
         }

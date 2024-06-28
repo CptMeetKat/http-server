@@ -44,9 +44,9 @@ public class HTTPRequest
         String[] lines = request.split("\n");
 
         String[] request_line = lines[0].split(" ");
-        request_map.put("method".toLowerCase(), request_line[0]);
-        request_map.put("URI".toLowerCase(), request_line[1]);
-        request_map.put("version".toLowerCase(), request_line[2]);
+        setMethod(request_line[0]);
+        setURI(request_line[1]);
+        setVersion(request_line[2]);
         
         for (int i = 1; i < lines.length; i++)
         {
@@ -58,6 +58,11 @@ public class HTTPRequest
                                 l.substring(seperator+1, l.length()-1));
             }
         }
+    }
+
+    public String getURI()
+    {
+        return uri;
     }
 
     public String getField(String field)
@@ -87,8 +92,8 @@ public class HTTPRequest
     }
 
     public byte[] serialize()
-    { //TODO: This should not use the original request and should use toString() instead
-        byte[] bytes = original_request.toString().getBytes(StandardCharsets.UTF_8);
+    { 
+        byte[] bytes = toString().getBytes();
         return bytes;
     }
 }
