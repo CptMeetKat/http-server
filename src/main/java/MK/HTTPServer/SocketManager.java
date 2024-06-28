@@ -17,7 +17,7 @@ public class SocketManager
     private static SocketManager manager = null;
     private Selector selector = null; 
     private Logger logger;
-    private boolean isRunning;
+    private boolean isRunning = false;
 
     public static SocketManager getSocketManager()
         throws IOException
@@ -33,12 +33,12 @@ public class SocketManager
     {
         try { //TODO: This is never called?
             logger.printf(PrintLevel.INFO, "Closing selector...\n");
+            stop();
             if(selector != null && selector.isOpen())
             {
                 selector.close();
                 manager = null;
                 selector = null;
-                isRunning = false;
             }
 
         } catch (IOException e) {
@@ -50,7 +50,6 @@ public class SocketManager
     private SocketManager()
         throws IOException
     {
-        isRunning = true;
         this.logger = Logger.getLogger();
         selector = Selector.open(); 
     }
@@ -91,7 +90,7 @@ public class SocketManager
     public void run()
         throws IOException
     {
-        isRunning = true; //TODO: variable name and use is a bit flawed
+        isRunning = true;
         while (isRunning) {
             selector.selectNow(); //Blocking
             Set<SelectionKey> selectedKeys = selector.selectedKeys();
