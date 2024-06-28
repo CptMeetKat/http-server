@@ -36,15 +36,8 @@ public class Static_HTTPRequest_Test{
         service = new App();
         service.loadDefault();
         
-
         executorService = Executors.newSingleThreadExecutor();
         executorService.submit(() -> service.start());
-
-        try {
-            Thread.sleep(1000); // Wait for the service to start
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
     }
 
     @AfterClass

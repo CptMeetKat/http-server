@@ -49,12 +49,6 @@ public class Routed_HTTPRequest_Test{
 
         executorService = Executors.newSingleThreadExecutor();
         executorService.submit(() -> service.start());
-
-        try {
-            Thread.sleep(1000); // Wait for the service to start //TODO: Can improve speed and consistency by checking the state of service rather than just waiting
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
     }
 
     @AfterClass
