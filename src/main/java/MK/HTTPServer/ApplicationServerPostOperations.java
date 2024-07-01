@@ -4,7 +4,7 @@ package MK.HTTPServer;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
-public class ApplicationServerPostOperations implements SocketPostOperations
+public class ApplicationServerPostOperations implements SocketReadCallback
 {
     Logger logger = Logger.getLogger();
     Sendable replyTo;

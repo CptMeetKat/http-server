@@ -5,12 +5,12 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
-import MK.HTTPServer.SocketPostOperations;
+import MK.HTTPServer.SocketReadCallback;
 
 import MK.HTTPServer.Logger;
 import MK.HTTPServer.Logger.PrintLevel;
 
-public class MockRoutedServerOperations implements SocketPostOperations
+public class MockRoutedServerOperations implements SocketReadCallback
 {
     ByteBuffer response;
     SocketChannel sender;

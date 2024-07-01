@@ -16,11 +16,11 @@ public class ServerSocketOperations implements SelectionKeyOperations
     private int buffer_length = 256; //This is also managed through config
     private HashMap<String, StringBuilder> request_builder = new HashMap<>();
     private static Logger logger = Logger.getLogger();
-    private SocketPostOperations postOperations;
+    private SocketReadCallback postOperations;
     boolean closeAfterRead;
 
 
-    public ServerSocketOperations(int buffer_length, SocketPostOperations postOperations, boolean closeAfterRead)
+    public ServerSocketOperations(int buffer_length, SocketReadCallback postOperations, boolean closeAfterRead)
     {
         this.buffer_length = buffer_length;
         this.postOperations = postOperations;
@@ -28,7 +28,7 @@ public class ServerSocketOperations implements SelectionKeyOperations
     }
 
 
-    public ServerSocketOperations(int buffer_length, SocketPostOperations postOperations)
+    public ServerSocketOperations(int buffer_length, SocketReadCallback postOperations)
     {
         this.buffer_length = buffer_length;
         this.postOperations = postOperations;

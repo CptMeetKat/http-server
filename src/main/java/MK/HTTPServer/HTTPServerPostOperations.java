@@ -5,7 +5,7 @@ import java.nio.channels.SocketChannel;
 
 import MK.HTTPServer.Logger.PrintLevel;
 
-public class HTTPServerPostOperations implements SocketPostOperations
+public class HTTPServerPostOperations implements SocketReadCallback
 {
     BaseHTTPHandler pipeline;
     Logger logger = Logger.getLogger();
