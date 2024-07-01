@@ -98,10 +98,5 @@ public class Routed_HTTPRequest_Test{
         assertTrue(result.contains("200"));
         assertNotNull(result);
     }
-
-    //public void when_dynamic_file_does_not_exist_return_HTTP_404() //May not be needed
-    //public void when_route_does_not_respond_return_403() //May not be needed
-    //public void when_route_does_not_exist_return_xxxxxxxx() //May not be needed
-    
 }
 
