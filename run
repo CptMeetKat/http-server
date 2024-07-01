@@ -1,6 +1,65 @@
 #!/bin/bash
-java -cp target/HTTPServer-1.0-SNAPSHOT.jar MK.HTTPServer.App
 
-#java -cp "target/classes:target/dependency/*" MK.HTTPServer.App
+compile() {
+    echo "Compiling..."
+    mvn package
+}
 
+go() {
+    echo "Building & running..."
+    mvn package
+    java -cp target/HTTPServer-1.0-SNAPSHOT.jar MK.HTTPServer.App
+}
+
+go_docker() {
+    echo "Running Docker..."
+    docker build -t java-http-server .
+    docker run -p 2024:2024 java-http-server
+}
+
+run() {
+    echo "Running..."
+    java -cp target/HTTPServer-1.0-SNAPSHOT.jar MK.HTTPServer.App
+}
+
+test() {
+    echo "Running tests..."
+    mvn test
+}
+
+slow_test() {
+    echo "Running acceptance tests..."
+    mvn test -Pslow-tests
+}
+
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 {compile|go|go-docker|run|test|slow_test}"
+    exit 1
+fi
+
+case "$1" in
+    compile)
+        compile
+        ;;
+    go)
+        go
+        ;;
+    go-docker)
+        go_docker
+        ;;
+    run)
+        run
+        ;;
+    test)
+        test
+        ;;
+    slow_test)
+        slow_test
+        ;;
+    *)
+        echo "Invalid argument: $1"
+        echo "Usage: $0 {compile|go|go-docker|run|test|slow_test}"
+        exit 1
+        ;;
+esac
 
