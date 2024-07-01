@@ -10,7 +10,7 @@ public class App
     HTTPServer server;
    
     public int log_level;
-    public int inbound_port;
+    public int inbound_port; 
     public int buffer_size;
     public String static_root;
     public ArrayList<Route> routes;
@@ -23,10 +23,7 @@ public class App
         app.start();
     }
 
-    public App() { }
-
-    public void loadDefault()
-    {
+    public App() {
         inbound_port = 8080;
         buffer_size = 256;
         static_root = System.getProperty("user.dir") + "/static/";
@@ -34,12 +31,14 @@ public class App
     }
 
 
-    public void loadDefault1()
+    public void setPort(int port)
     {
-        inbound_port = 8081;
-        buffer_size = 256;
-        static_root = System.getProperty("user.dir") + "/static/";
-        routes = new ArrayList<Route>();
+        this.inbound_port = port;
+    }
+
+    public void addRoute(Route r)
+    {
+        routes.add(r);
     }
 
     public void loadConfig()

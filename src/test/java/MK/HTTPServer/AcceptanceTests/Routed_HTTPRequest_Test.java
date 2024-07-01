@@ -37,7 +37,7 @@ public class Routed_HTTPRequest_Test{
 
         Route route1 = new Route("localhost", 8005, "dynamic"); //TODO: This only work while we still have our sample file, test is not isolated enough
         service = new App();
-        service.loadDefault1();
+        service.setPort(8081);
         service.routes.add(route1);
 
         try {

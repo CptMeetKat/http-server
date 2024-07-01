@@ -34,7 +34,7 @@ public class Static_HTTPRequest_Test{
     @BeforeClass
     public static void startService() {
         service = new App();
-        service.loadDefault();
+        service.setPort(8080);
         
         executorService = Executors.newSingleThreadExecutor();
         executorService.submit(() -> service.start());
