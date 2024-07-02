@@ -12,8 +12,8 @@ public class App
     public int log_level;
     public int inbound_port; 
     public int buffer_size;
-    public String static_root;
     public ArrayList<Route> routes;
+    String static_root;
 
 
     public static void main(String[] args) 
@@ -26,10 +26,14 @@ public class App
     public App() {
         inbound_port = 8080;
         buffer_size = 256;
-        static_root = System.getProperty("user.dir") + "/static/";
+        setStaticRoot("/static/");
         routes = new ArrayList<Route>();
     }
 
+    public void setStaticRoot(String path)
+    {
+        this.static_root = System.getProperty("user.dir") + path;
+    }
 
     public void setPort(int port)
     {

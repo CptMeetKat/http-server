@@ -35,6 +35,7 @@ public class Static_HTTPRequest_Test{
     public static void startService() {
         service = new App();
         service.setPort(8080);
+        service.setStaticRoot("/src/test/static_test_files/");
         
         executorService = Executors.newSingleThreadExecutor();
         executorService.submit(() -> service.start());
@@ -55,7 +56,7 @@ public class Static_HTTPRequest_Test{
     @Test
     public void when_static_file_exists_return_HTTP_200() 
     {
-        String message = "GET /mysample.html HTTP/1.1\r\n\r\n";
+        String message = "GET /mysample-test.html HTTP/1.1\r\n\r\n";
         HTTPRequest httpRequest = new HTTPRequest(message);
         MockWebBrowserOperations browser = new MockWebBrowserOperations();
 
