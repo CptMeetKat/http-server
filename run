@@ -44,7 +44,7 @@ case "$1" in
     go)
         go
         ;;
-    go-docker)
+    godocker)
         go_docker
         ;;
     run)
@@ -53,7 +53,7 @@ case "$1" in
     test)
         test
         ;;
-    slow_test)
+    slowtest)
         slow_test
         ;;
     *)
